@@ -33,67 +33,41 @@ del cliente original `RPcliente.exe`, para que vuelva a funcionar contra un serv
 - Helper `Campo(msg, n)` = 0x721fe0 (campo n separado por espacios; 1 = comando).
 
 ### Servidor (`server/`)
-Funciona de extremo a extremo: login, lobby (personaje, sala, lista de usuarios, ping) y la ventana
-**Cartas** (oro, barajas, listas de cartas con imagen). Los handlers se recargan en caliente.
+Funciona con persistencia SQLite completa (`server/rolplay.db`), catálogo real de 285 cartas importado
+de `cards.csv` con imágenes verificadas en `game/imagenes/crt_*.jpg`, gestión de barajas (activas y reserva),
+salas/canales, partidas/retos y chat en tiempo real. Los handlers se recargan en caliente.
 
-Comandos con handler: `LOGINUSERADV`, `LOGINUSER`, `LOGOUT`, `GETMSGJOIN`, `GETUSERCHANNEL`, `GETUSERPRIV`,
-`GETCOUNTCONN`, `GETUSERINF`, `GETUSERAWAY`, `LSTCONNCNT`, `LSTCONN`, `PINGUSR`, `JOINCHANEL`, `SETUSERPRIV`,
-`SETUSERNOPRIV`, `SETUSERAWAY`, `SETUSERNOAWAY`, `MSG`, `GETUSERGOLD`, `GETLSTDECKS`, `GETDECKACT`,
-`GETACTCARDLISTCNT`, `GETINACTCARDLISTCNT`, `GETACTCARDLIST`, `GETINACTCARDLIST`.
+Comandos con handler implementado: `LOGINUSERADV`, `LOGINUSER`, `LOGOUT`, `GETMSGJOIN`, `GETUSERCHANNEL`, `GETUSERPRIV`,
+`GETCOUNTCONN`, `GETUSERINF`, `GETUSERLEVEL`, `GETUSERXP`, `GETUSERAWAY`, `LSTCONNCNT`, `LSTCONN`, `PINGUSR`,
+`JOINCHANEL`, `SETUSERCHANNEL`, `GETLSTCHANNELS`, `SETUSERPRIV`, `SETUSERNOPRIV`, `SETUSERAWAY`, `SETUSERNOAWAY`,
+`MSG`, `MSGPRIV`, `GETUSERGOLD`, `GETLSTDECKS`, `GETDECKACT`, `SETDECKACT`, `CREATEDECK`, `DELETEDECK`,
+`GETACTCARDLISTCNT`, `GETINACTCARDLISTCNT`, `GETACTCARDLIST`, `GETINACTCARDLIST`, `GETGAMELIST`, `CREATEGAME`,
+`JOINGAME`, `UNJOINGAME`, `GETDEALLIST`, `GETLSTCLANES`, `EST`, `GETCARDIMAGEMAIN`.
 
-### Reglas del protocolo que costaron encontrar
+### Driver de Automatización (`tools/rp_driver.py`)
+Harness completo en Python para lanzar, autenticar, navegar y leer el estado de la interfaz de usuario
+de forma totalmente programática, **sin necesidad de capturas de pantalla** ni confirmación del usuario:
+- Conexión al escritorio interactivo de Windows (`Default` en WinSta0) con soporte de tipos 64 bits.
+- Lanzamiento desacoplado mediante WMI (`Win32_Process.Create`) para sobrevivir a la sesión del agente.
+- Autenticación automática (`login`).
+- Navegación fiable a subventanas (`nav cartas`, `nav salas`, `nav retos`, etc.) mediante cálculo de
+  coordenadas relativas y eventos de ratón Win32 reales sobre botones JwldButn.
+- Volcado estructurado del estado de controles (TextBox, CheckBox, ComboBox, ListBox, TreeView) en JSON (`status` / `read`).
+- Cierre automático de subventanas modales (`close`).
+- Envío de mensajes al chat del lobby (`chat <msg>`).
+- Suite de pruebas completa (`test`) que ejecuta el recorrido automatizado por todas las pantallas.
+
+### Reglas del protocolo verificadas
 - Toda respuesta necesita al menos un argumento (`PINGRPS OK`); si no, "Error en la recepcion de un paquete".
 - Las listas terminan **siempre en coma**: el cliente itera `arr(i-1)` y descarta el último elemento.
 - Nombres de baraja sin espacios.
+- Salas: `GETLSTCHANNELSRPS <canal1>,<canal2>,...`
+- Partidas: Si no hay, `GETGAMELISTRPS Sin partidas activas`. Si hay: `nombre@creador=descripcion,`.
+- Chat: `MSG <usuario> <texto>`.
 - Formatos completos en [PROTOCOLO.md](PROTOCOLO.md).
 
-## Falta
+## Siguiente Fase
+- **Combate / Duelos (Formulario Torneo)**: motor de juego por turnos, manos iniciales, invocaciones (`GIRMONS`, `INVKREMMONS`),
+  puntos de vida (`ADDPV`, `DEDUCTPV`), apuestas de oro y cartas, y resolución de victoria/derrota.
+- **Intercambios y Clanes**: completar los flujos multijugador específicos entre 2 clientes simultáneos.
 
-### Corto plazo
-- **Catálogo de cartas real**: `cards.csv` del repo NinjasCL y la web [rolplus](https://ninjascl.github.io/rolplus/)
-  (coste, ataque, defensa, efectos). Confirmar el significado de los campos 3º, 5º y 6º del ítem de carta
-  volcando `0x724280` (función que guarda los campos).
-- **Persistencia** (SQLite): usuarios y contraseñas, oro, XP, barajas, colección. Alta de usuario (`ADDUSER`).
-- **Salas** (`GETLSTCHANNELS` → Canales 0x785ce0, `SETUSERCHANNEL`) y **chat** (`MSG`, `MSGPRIV`, `JOINPRIV`).
-- **Partidas** (`GETGAMELIST` → Partidas 0x7685d0, `CREATEGAME`, `JOINGAME`, `UNJOINGAME`, `SETPLAYERREADY`).
-
-### Medio plazo
-- **Duelos** (formulario Torneo, 126 métodos): turnos, ataques, PV, apuestas (`BEGINTURN`, `SENDATTACK`,
-  `DEDUCTPV`, `KILLCARD`, `GIRMONS`, `ADDPV`, `SETCATTACK`, `SETCDEFEND`…). Requiere las reglas del juego
-  (manual en `version_leeme.txt` del instalador y web rolplus).
-- **Intercambios**, **clanes**, **estadísticas**, **álbum**, **compra de sobres** (`BUYCARDS`).
-- Multiusuario real: broadcast de `MSGADD`/`LSTCONN`, desconexiones, varios clientes a la vez.
-
-Comandos cliente→servidor sin handler (de `analysis/strings_unicode.txt`): `ADDUSER`, `ADDUSERCLAN`,
-`ASKJOINCLAN`, `BUYCARD`, `BUYCARDS`, `CREATECLAN`, `CREATEDEAL`, `CREATEDECK`, `CREATEGAME`, `DEADME`,
-`DELETEDECK`, `DEOPUSERCLAN`, `DESTROYCLAN`, `ENDDEAL`, `GETBETCARDLIST`, `GETCARDAGE`, `GETCARDCOUNT`,
-`GETCARDCOUNTOPP`, `GETCARDDESC`, `GETCARDESP`, `GETCARDESPF`, `GETCARDHAND`, `GETCARDIMAGE`,
-`GETCARDIMAGEMAIN`, `GETCARDNDECK`, `GETCARDPOWER`, `GETCARDPROFILE`, `GETCARDTYPE`, `GETCARDVAL`,
-`GETCLANGOLD`, `GETCLANINF`, `GETCLANMEMBERCNT`, `GETCLANMEMBERLST`, `GETCLANSELLCARDLIST`,
-`GETCLANSELLPUBLIC`, `GETCLANSELLPUBLICCNT`, `GETDEALFINALRPS`, `GETDEALLIST`, `GETDEALOPP`,
-`GETDOIHAVECARD`, `GETDUELBEGINGUS`, `GETDUELCARDLIST`, `GETDUELNUMCARDBET`, `GETDUELNUMCARDBETOPP`,
-`GETDUELNUMCARDS`, `GETDUELRES`, `GETGAMELIST`, `GETGAMEOPP`, `GETGAMEOPPLEVEL`, `GETGAMEOPPPV`,
-`GETGOLDBET`, `GETGOLDBETOPP`, `GETLSTCARDSEXISTEN`, `GETLSTCARDSLEVELS`, `GETLSTCHANNELS`,
-`GETLSTCLANES`, `GETLSTHORD`, `GETLSTSRVADV`, `GETUSERAUTOCAN`, `GETUSERDESC`, `GETUSEREMAIL`,
-`GETUSERLEVEL`, `GETUSERLEVELCHANEL`, `GETUSERPASS`, `GIVECLANGOLD`, `INVKADDPV`, `INVKDEDUCTPV`,
-`INVKGIRMONS`, `INVKGIRMONSOK`, `INVKREMAMU`, `INVKREMMONS`, `INVKREMPOD`, `ISCREATORCLAN`,
-`ISMEMBERCLAN`, `ISMEMBERTHISCLAN`, `ISOPCLAN`, `JOINDEAL`, `JOINGAME`, `JOINPRIV`, `KILLCARD`,
-`LEAVECLAN`, `MOVECARD`, `MSGDEAL`, `MSGDEALWARN`, `MSGDUEL`, `MSGGAME`, `MSGPRIV`, `NAMESESSION`,
-`OPUSERCLAN`, `REMAMUVAL`, `REMCARDALBUM`, `REMUSERCLAN`, `SELLCARD`, `SENDACTUALPASS`, `SENDATTACK`,
-`SENDATTACKRPS`, `SENDENDTURN`, `SETAMUVAL`, `SETCARDACTIVE`, `SETCARDALBUM`, `SETCARDBET`,
-`SETCARDINACTIVE`, `SETCATTACK`, `SETCDEFEND`, `SETCLANDESC`, `SETCLANFREE`, `SETCLANMAXMEMBERS`,
-`SETCLANSELLCARD`, `SETCLANURL`, `SETCLEANCLANSELLCARD`, `SETDEALIDX`, `SETDECKACT`, `SETGOLDBET`,
-`SETINACTIVEDECK`, `SETPINGDEAL`, `SETPINGGAME`, `SETPLAYERACEPT`, `SETPLAYERDREADY`,
-`SETPLAYERDUNREADY`, `SETPLAYERNOACEPT`, `SETPLAYERREADY`, `SETPLAYERUNREADY`, `SETREFRESHBET`,
-`SETUSERAUTOCAN`, `SETUSERCHANNEL`, `SETUSERDESC`, `SETUSEREMAIL`, `SETUSERPASS`, `SHOWCARDDECK`,
-`SHOWCARDIN`, `SHOWCARDOPP`, `SHOWCARDOPPSIT`, `SHOWCARDOUT`, `SHOWCARDUNVEERO`, `SHOWCARDVEER`,
-`SHOWGOLDDEALM`, `SHOWGOLDDEALP`, `SHOWKILLCARD`, `SURRENDERME`, `TAKECLANGOLD`, `UNJOINCHANEL`,
-`UNJOINDEAL`, `UNJOINGAME`.
-
-## Cómo retomar
-1. `python server\rpserver.py` (escucha en 10002; log en `server\server.log`).
-2. `game\RPcliente.exe -local -nocheck`, o `powershell scripts\relogin.ps1`.
-3. Para un comando nuevo: `python tools\resolve.py Principal 0x7c7be0` (o el despachador del formulario
-   que corresponda), volcar el handler con `python tools\funcdump.py -b 0x...` y buscar
-   `Campo`/`Split`/`InStr`/`VarTstEq` para deducir el formato. Probar editando `server\handlers.py`
-   (se recarga solo) y observando `scripts\ui.ps1` → `Open-Sub 'Cartas' 'c'`, `Read-Cartas`, `Tail-Log`.

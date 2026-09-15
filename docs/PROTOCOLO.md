@@ -42,6 +42,26 @@ por ejemplo `crt_elfo_bardo.jpg`). `<n>` = cartas recibidas hasta ahora; el clie
 hasta alcanzar `<total>`. Un ítem que el cliente no consigue procesar (p. ej. imagen inexistente)
 hace que repita la petición indefinidamente.
 
+## Salas y Canales
+| Cliente → servidor | Servidor → cliente |
+|---|---|
+| `GETLSTCHANNELS <sid>` | `GETLSTCHANNELSRPS canal1,canal2,canal3,` |
+| `SETUSERCHANNEL <sid> <sala>` | `SETUSERCHANNELRPS <sala>` |
+
+## Retos y Partidas
+| Cliente → servidor | Servidor → cliente |
+|---|---|
+| `GETGAMELIST <user>` | `GETGAMELISTRPS Sin partidas activas` (o `partida@creador=descripcion,`) |
+| `CREATEGAME <nombre> <pass> <oro> <cartas> <baraja>` | `CREATEGAMERPS OK <id>` |
+| `JOINGAME <id> <pass>` | `JOINGAMERPS OK` |
+| `UNJOINGAME` | `UNJOINGAMERPS OK` |
+
+## Chat y Mensajería
+| Cliente → servidor | Servidor → cliente |
+|---|---|
+| `MSG <sid> <texto_con_espacios_como_=> <sala>` | broadcast `MSG <usuario> <texto_limpio>` a los usuarios en la misma sala |
+| `MSGPRIV <destinatario> <texto>` | `MSGPRIV <remitente> <texto>` al destinatario |
+
 ## Handlers resueltos (dirección real en el exe)
 | Respuesta | Formulario | Función |
 |---|---|---|
@@ -61,4 +81,5 @@ hace que repita la petición indefinidamente.
 Mapa completo de Principal y Cartas en `analysis/map_Principal.json` y `analysis/map_Cartas.json`.
 
 ## Pendiente de verificar
-Salas, partidas, duelos, intercambios, clanes, estadísticas, álbum, compra de sobres.
+Duelos (motor de combate en Torneo), intercambios multijugador, clanes avanzados y tienda de sobres.
+

@@ -2,6 +2,7 @@ __pycache__/
 *.pyc
 *.log
 *.png
+*.db
 shots/
 # binarios del juego (con copyright): no se suben
 *.exe
