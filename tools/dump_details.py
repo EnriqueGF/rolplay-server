@@ -1,0 +1,10 @@
+from rpexe import Exe
+
+exe = Exe()
+
+def show(va1, va2):
+    for ins, note in exe.disasm(va1, va2):
+        print(f"  {ins.address:#x}: {ins.mnemonic:7} {ins.op_str:35} {note}")
+
+print("=== 0x733ba0 .. 0x733d10 (GETGAMEOPP etc) ===")
+show(0x733ba0, 0x733d10)

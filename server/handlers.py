@@ -10,6 +10,7 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import db
+import duel
 
 SESSION_ID = "7369694132202740228"
 WELCOME = "Bienvenido a Rolplay.net (Servidor Reconstruido)"
@@ -279,8 +280,8 @@ def h_GETGAMELIST(cn, a, S):
     games = db.get_active_games(cur_ch)
     if not games:
         return ["GETGAMELISTRPS Sin partidas activas"]
-    # Formato: nombre@creador=descripcion,
-    items = [f"{g['name']}@{g['creator']}={g['bet_gold']} oro" for g in games]
+    # Formato: nombre@id/creador/apuesta,
+    items = [f"{g['name']}@{g['id']}/{g['creator']}/{g['bet_gold']}" for g in games]
     return [f"GETGAMELISTRPS {_lst(items)}"]
 
 
@@ -288,15 +289,283 @@ def h_CREATEGAME(cn, a, S):
     name = a[0] if a else f"Partida_{cn.user}"
     cur_ch = getattr(cn, "channel", CHANNELS[0])
     gid = db.create_game(name, cn.user or "anon", cur_ch)
+    d = duel.duel_manager.create_duel(cn.user or "anon", opponent="BotRival", channel=cur_ch)
+    d.p1.connection = cn
     return [f"CREATEGAMERPS OK {gid}"]
 
 
 def h_JOINGAME(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    gid = int(a[1]) if len(a) > 1 and a[1].isdigit() else 1
+    games = db.get_active_games(getattr(cn, "channel", CHANNELS[0]))
+    target_game = next((g for g in games if g["id"] == gid), None)
+    creator = target_game["creator"] if target_game else "BotRival"
+
+    d = duel.duel_manager.get_user_duel(user)
+    if not d:
+        d = duel.duel_manager.create_duel(creator, opponent=user, channel=getattr(cn, "channel", CHANNELS[0]))
+    p = d.get_player(user)
+    if p:
+        p.connection = cn
     return ["JOINGAMERPS OK"]
 
 
 def h_UNJOINGAME(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        d.status = "finished"
     return ["UNJOINGAMERPS OK"]
+
+
+# --- Handlers de combate y Torneo --------------------------------------------
+def h_GETUSERLEVEL(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    u = db.get_user(user)
+    lvl = u["level"] if u else 1
+    return [f"GETUSERLEVELRPS {lvl}"]
+
+
+def h_GETDUELNUMCARDS(cn, a, S):
+    return ["GETDUELNUMCARDSRPS 8"]
+
+
+def h_GETDUELBEGINGUS(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    start_turn = 1 if (d and d.turn == 1) else 2
+    return [f"GETDUELBEGINGUSRPS {start_turn}"]
+
+
+def h_GETGAMEOPP(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    opp = d.get_opponent(user) if d else None
+    opp_name = opp.user if opp else "BotRival"
+    return [f"GETGAMEOPPRPS {opp_name}"]
+
+
+def h_GETGAMEOPPLEVEL(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    opp = d.get_opponent(user) if d else None
+    lvl = opp.level if opp else 1
+    return [f"GETGAMEOPPLEVELRPS {lvl}"]
+
+
+def h_GETGAMEOPPPV(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    opp = d.get_opponent(user) if d else None
+    pv = opp.pv if opp else 20
+    return [f"GETGAMEOPPPVRPS {pv}"]
+
+
+def h_MSGDUEL(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send(f"MSGGAME {user}: {' '.join(a[1:])}")
+    return []
+
+
+def h_SETPINGGAME(cn, a, S):
+    return ["PINGRPS OK"]
+
+
+def h_SETPLAYERREADY(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    if not d:
+        d = duel.duel_manager.create_duel("BotRival", opponent=user)
+        p = d.get_player(user)
+        if p:
+            p.connection = cn
+
+    both_ready = d.set_ready(user)
+    # Notificar que el juego está listo
+    return ["SETGAMEREADY"]
+
+
+def h_SETPLAYERUNREADY(cn, a, S):
+    return []
+
+
+def h_GETCARDCOUNT(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    p = d.get_player(user) if d else None
+    cnt = len(p.deck) if p else 20
+    return [f"GETCARDCOUNTRPS {cnt}"]
+
+
+def h_GETCARDCOUNTOPP(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    opp = d.get_opponent(user) if d else None
+    cnt = len(opp.deck) if opp else 20
+    return [f"GETCARDCOUNTOPPRPS {cnt}"]
+
+
+def h_GETCARDHAND(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    p = d.get_player(user) if d else None
+    card = p.draw_card() if p else None
+    if not card:
+        card = duel.Card(1, "Poder", 1, "crt_poder.jpg")
+
+    payload = card.format_hand_payload()
+    return [f"GETCARDHANDRPS {payload}"]
+
+
+def h_SENDACTUALPASS(cn, a, S):
+    phase = a[0] if a else "1"
+    user = cn.user or "prueba"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send(f"SENDACTUALPASS {phase}")
+    return []
+
+
+def h_SHOWCARDOPP(cn, a, S):
+    user = cn.user or "prueba"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send(f"SHOWCARDOPPACT {' '.join(a)}")
+    return []
+
+
+def h_SHOWCARDVEER(cn, a, S):
+    user = cn.user or "prueba"
+    d = duel.duel_manager.get_user_duel(user)
+    slot = a[0] if a else "0"
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send(f"SHOWCARDVEERACT {slot}")
+    return [f"SHOWCARDVEERACT {slot}"]
+
+
+def h_SHOWCARDUNVEERO(cn, a, S):
+    user = cn.user or "prueba"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send("SHOWCARDUNVEEROACT")
+    return ["SHOWCARDUNVEERACT"]
+
+
+def h_SENDATTACK(cn, a, S):
+    user = cn.user or "prueba"
+    slot = a[0] if a else "0"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        d.player_attack(user, slot)
+    return []
+
+
+def h_SENDATTACKRPS(cn, a, S):
+    return []
+
+
+def h_SETCATTACK(cn, a, S):
+    return ["SETCATTACKRPS OK"]
+
+
+def h_SETCDEFEND(cn, a, S):
+    return ["SETCDEFENDRPS OK"]
+
+
+def h_KILLCARD(cn, a, S):
+    cid = a[0] if a else "0"
+    return [f"KILLCARD {cid}"]
+
+
+def h_INVKDEDUCTPV(cn, a, S):
+    user = cn.user or "prueba"
+    dmg = int(a[0]) if a and a[0].isdigit() else 1
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp:
+            opp.pv = max(0, opp.pv - dmg)
+            if opp.connection:
+                opp.send(f"DEDUCTPV {dmg}")
+            if opp.pv <= 0:
+                d.finish_duel(user)
+    return [f"DEDUCTPVOPP {dmg}"]
+
+
+def h_INVKADDPV(cn, a, S):
+    heal = int(a[0]) if a and a[0].isdigit() else 1
+    return [f"ADDPV {heal}"]
+
+
+def h_INVKGIRMONSOK(cn, a, S):
+    slot = a[0] if a else "0"
+    return [f"GIRMONS {slot}"]
+
+
+def h_INVKREMPOD(cn, a, S):
+    slot = a[0] if a else "0"
+    return [f"REMPOD {slot}"]
+
+
+def h_INVKREMMONS(cn, a, S):
+    slot = a[0] if a else "0"
+    return [f"REMMONS {slot}"]
+
+
+def h_INVKREMAMU(cn, a, S):
+    slot = a[0] if a else "0"
+    return [f"REMAMU {slot}"]
+
+
+def h_SETAMUVAL(cn, a, S):
+    return ["SETAMUVALRPS OK"]
+
+
+def h_REMAMUVAL(cn, a, S):
+    return []
+
+
+def h_DEADME(cn, a, S):
+    user = cn.user or "prueba"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        d.finish_duel(opp.user if opp else "Rival")
+    return ["DEADPLAYER"]
+
+
+def h_SURRENDERME(cn, a, S):
+    return h_DEADME(cn, a, S)
+
+
+def h_SENDENDTURN(cn, a, S):
+    user = cn.user or "prueba"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        d.next_turn()
+    return []
+
+
+def h_GETDUELRES(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    if d and d.winner == user:
+        return [f"GETDUELRESRPS 1 1 {d.get_opponent(user).user} 100 50"]
+    else:
+        opp_name = d.get_opponent(user).user if (d and d.get_opponent(user)) else "BotRival"
+        return [f"GETDUELRESRPS 0 1 {opp_name} 20 0"]
 
 
 # --- Intercambios, Clanes y Estadísticas -------------------------------------

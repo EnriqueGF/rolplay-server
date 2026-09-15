@@ -224,6 +224,34 @@ def update_user(username, **kwargs):
         conn.commit()
 
 
+def update_user_stats(username, add_gold=0, add_xp=0, won=None):
+    with _lock, get_conn() as conn:
+        c = conn.cursor()
+        c.execute("SELECT gold, xp, wins, losses, level FROM users WHERE username = ?", (username,))
+        row = c.fetchone()
+        if not row:
+            return
+        gold, xp, wins, losses, level = row
+        new_gold = max(0, gold + add_gold)
+        new_xp = xp + add_xp
+        new_wins = wins + (1 if won is True else 0)
+        new_losses = losses + (1 if won is False else 0)
+        XP_LEVELS = [(15, 9000), (14, 8000), (13, 7000), (12, 6000), (11, 5100),
+                     (10, 4400), (9, 3700), (8, 3100), (7, 2500), (6, 1900),
+                     (5, 1400), (4, 900), (3, 500), (2, 200)]
+        new_level = 1
+        for lvl, req in XP_LEVELS:
+            if new_xp >= req:
+                new_level = lvl
+                break
+        new_level = max(level, new_level)
+        c.execute("""
+            UPDATE users SET gold = ?, xp = ?, wins = ?, losses = ?, level = ?
+            WHERE username = ?
+        """, (new_gold, new_xp, new_wins, new_losses, new_level, username))
+        conn.commit()
+
+
 # --- Métodos de barajas y cartas ---------------------------------------------
 def get_user_decks(username, which="0"):
     """Devuelve nombres de barajas. which: '1' para activa, '0' para reserva/todas."""

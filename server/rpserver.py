@@ -19,14 +19,18 @@ from rp_proto import decode, frame, split  # noqa: E402
 import handlers  # noqa: E402
 
 STATE = {"users": {}}   # estado compartido entre conexiones (persiste entre recargas)
-_log = None
+LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "stdout.log")
+_log = open(LOG_FILE, "a", encoding="utf-8", buffering=1)
 
 
 def L(s: str):
     line = f"[{datetime.datetime.now():%H:%M:%S}] {s}"
-    if _log:
-        _log.write(line + "\n")
-        _log.flush()
+    try:
+        if _log:
+            _log.write(line + "\n")
+            _log.flush()
+    except Exception:
+        pass
     print(line, flush=True)
 
 
@@ -62,6 +66,8 @@ def serve_client(sock, addr, reload_handlers):
                 cmd, args = parts[0], parts[1:]
                 try:
                     if reload_handlers:
+                        if hasattr(handlers, "duel"):
+                            importlib.reload(handlers.duel)
                         importlib.reload(handlers)
                     h = getattr(handlers, "h_" + cmd, None)
                     if h is None:

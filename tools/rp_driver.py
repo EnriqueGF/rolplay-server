@@ -104,8 +104,8 @@ class RPDriver:
         print("[Driver] Servidor no detectado. Iniciando rpserver.py...")
         py_exe = sys.executable
         srv_py = os.path.join(self.server_dir, "rpserver.py")
-        cmd = f'"{py_exe}" "{srv_py}"'
-        subprocess.Popen(cmd, cwd=self.server_dir, shell=True, creationflags=win32process.CREATE_NEW_PROCESS_GROUP)
+        cmd = f'powershell -Command "Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{{CommandLine = \'\\"{py_exe}\\" \\"{srv_py}\\"\'; CurrentDirectory = \'{self.server_dir}\'}}"'
+        subprocess.run(cmd, shell=True, capture_output=True)
         for _ in range(20):
             time.sleep(0.3)
             if self.is_server_listening():
