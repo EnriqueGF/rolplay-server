@@ -1,0 +1,812 @@
+logo
+Adobe Photoshop
+Adobe Photoshop 7.0
+|*\AC:\Custom\Projects\Own\RP\dev\old\client\cliente\cliente.vbp
+2c49f800-c2dd-11cf-9ad6-0080c7e7b78d
+9368265E-85FE-11d1-8BE3-0000F8754DA1
+_extentx
+_exte
+font
+focusr
+Cicon
+Cextenty
+Cnab
+mptr
+micon
+tentx
+extenty
+enab
+_exten
+Cxtenty
+Csoft\Win
+CExplorer
+#SETUSERAWAY 
+#SETUSERNOAWAY 
+#SETUSERPRIV 
+#SETUSERNOPRIV 
+notepad.exe 
+\version_leeme.txt
+#LOGOUT 
+\imagenes\normal.gif
+\imagenes\enreto.gif
+\imagenes\away.gif
+#GETMSGJOIN 
+#GETUSERCHANNEL 
+#GETUSERPRIV 
+#GETCOUNTCONN 
+Informacion 
+GETUSERINFADV 
+Estadisticas_pj
+#MSG 
+http://
+http://encuestas.rolplay.net
+#PINGUSR 
+#LSTCONN 
+ 0 35
+@ADD@
+@REMOVE@
+image
+#GETUSERINF 
+#JOINCHANEL 
+#GETUSERAWAY 
+#LSTCONNCNT 
+Sala: 
+#UNJOINCHANEL 
+#GETUSERLEVELCHANEL 
+Has sido echado del canal temporalmente por un operador: 
+NOMSG
+Has sido baneado (bloqueo de usuario) del juego temporal o permanentemente por un operador: 
+Has sido nombrado operador por otro operador del juego.
+Has perdido los derechos de operador por criterio de otro operador del juego.
+NOACEPT
+NOACEPT:
+El usuario 
+ no acepta privados en este momento
+Has sido echado del canal por 'flood'.
+Con escribir las cosas 1 vez o 2 vale ;)
+COL:
+#GETLSTSRVADV 
+#GETLSTSRVADV 1 8
+EN RETO
+Flood es el envio masivo de mensajes cuyo texto es el mismo en todos ellos o cuyo contenido es extremadamente largo. El exceso en cantidad de este tipo de mensajes perjudica al ambiente de juego y ralentiza el sistema innecesariamente
+NO DISP.
+Se ha detectado un error recibiendo el mapeado de servidores. Intenta acceder de nuevo en unos segundos
+ Usuarios Online / Ping 
+ Retos en curso
+EN INTER.
+Text
+Close
+principal
+Este servicio no se encuentra disponible de momento
+RemoteHost
+RemotePort
+Connect
+\log.log
+Visible
+Drag
+\winsock_host.dat
+CRÏPT
+ND ND ND
+Windows32s
+Windows95/98
+WindowsNT
+carta
+\imagenes\
+#SETPLAYERREADY 
+#SETPLAYERUNREADY 
+#SENDATTACKRPS 
+ NOP
+#SURRENDERME 
+#UNJOINGAME 
+#SENDACTUALPASS
+Amuleto
+Criatura
+#SHOWCARDUNVEERO
+#SHOWKILLCARD
+#SENDENDTURN
+Move
+#SHOWCARDOPPSIT
+#GETUSERLEVEL 
+#GETDUELNUMCARDS 
+#GETDUELBEGINGUS 
+#MSGDUEL
+Poder
+A + 
+#SETCATTACK 
+D + 
+#SETCDEFEND 
+#SENDATTACK
+mistica
+.jpg
+_g.jpg
+ZOrder
+Estadistica de carta
+Estadisticas_carta
+/imagenes/
+#SETPINGGAME 
+Enabled
+#GETCARDCOUNTOPP 
+#GETCARDCOUNT 
+#GETGAMEOPP 
+#GETGAMEOPPLEVEL 
+#GETGAMEOPPPV 
+#GETCARDHAND
+Generar carta ...
+Conjurar poder ...
+Invocar criaturas ...
+ mistica 
+Habilidad de Criaturas/Amuletos ...
+Fase de ataque ...
+Fin de turno ...
+\imagenes\luz_r.jpg
+\imagenes\luz_b.jpg
+#GETCARDTYPE 
+#GETCARDPOWER 
+#GETCARDESP 
+#GETCARDESPF 
+_h.jpg
+#SHOWCARDVEER
+Ataque de criatura 
+ Ataque: 
+ Defensa: 
+Has sido derrotado por el contrario
+#DEADME 
+Felicidades!, Has derrotado al contrario
+France
+SURRENDER
+El contrincante se ha retirado
+\imagenes\crt_back.jpg
+poder
+No se encontro la carta
+\imagenes\luz_v.jpg
+\imagenes\luz_a.jpg
+El usuario contrario no responde.
+Ping 
+Te has quedado sin cartas
+#MSGGAME 
+#SHOWCARDOPP
+#SETAMUVAL 
+ pv_turno 
+ ataque 
+ defensa 
+ mons_ataque 
+ mons_defensa 
+ rem_poder 
+ rem_mons 
+ rem_amu 
+ gir_poder 
+ gir_mons 
+#INVKGIRMONSOK 
+Finland
+KILLCARD 
+#KILLCARD 
+#REMAMUVAL 
+LEVELUP
+LEVELUPOPP
+Enviando informacion ...
+#GETGOLDBET 
+#GETDUELNUMCARDBET 
+#GETGOLDBETOPP 
+#GETDUELNUMCARDBETOPP 
+  Cartas de inicio: 
+Estonia
+Inicio: Aleatorio
+Inicio: Creador
+Inicio: Invitado
+    
+#INVKREMMONS 
+#INVKREMAMU 
+#INVKREMPOD 
+#INVKGIRMONS 
+#INVKDEDUCTPV 
+#INVKADDPV 
+España
+Ya existe una sesion de Rolplay.net en tiempo de ejecucion
+chr(
+) & 
+Creado 
+-nocheck
+-local
+localhost
+10002
+.gif
+.ico
+.bmp
+.wav
+.mid
+http://soporte.rolplay.net
+Dinamarca
+Ecuador
+Accediendo al servidor ...
+\rolplay2.exe
+\rolplay.exe
+\version_splas.txt
+ver 
+\pass.dat
+Brazil
+Canada
+Chile
+China
+Costa Rica
+Cyprus
+Czech Republic
+Existe un problema en la conexion con el servidor. Revisa las opciones de conexion a internet o intenta conectar mas tarde
+Servicio 
+ recibido...
+Anguilla
+Australia
+Austria
+Bélgica
+Germany
+Greece
+Hong Kong
+Hungary
+Iceland
+India
+Ireland
+Israel
+Italia
+Jamaica
+Japan
+Latvia
+Lithuania
+Luxembourg
+Malaysia
+Malta
+Mexico
+Netherlands
+New Zealand
+Norway
+Poland
+Portugal
+Reino Unido
+Republica Dominicana
+Singapore
+Slovakia
+Slovenia
+South Africa
+South Korea
+Suiza
+Switzerland
+Taiwan
+Thailand
+Turquia
+United States
+Uruguay
+Venezuela
+Creando usuario ...
+empty
+#ADDUSER 
+El usuario o la clave no es valido. No puede contener espacios o no puede estar vacio. La longitud del usuario no puede ser mayor de 16 caracteres. Tampoco puede contener caracteres raros
+#BUYCARDS 
+#SETCARDINACTIVE 
+Seleccionar todas
+Deseleccionar todas
+Solo puedes tener 
+ activo/os en la baraja
+#SETCARDACTIVE 
+#SELLCARD 
+#GETUSERGOLD 
+#GETLSTDECKS 
+#GETCARDVAL 
+#GETCARDIMAGE 
+Nombre: 
+Valor: 
+Max en baraja: 
+Tipo: 
+ Recibidas
+#GETINACTCARDLIST 
+ 20 
+Se ha detectado un error recibiendo la informacion de las cartas. Intenta acceder de nuevo en unos segundos
+#GETACTCARDLIST 
+Picture
+ moneda/as de oro
+Caption
+ 0 20
+JOINDEALRPS
+#GETACTCARDLISTCNT 
+#GETINACTCARDLISTCNT 
+#GETDECKACT 
+GETDEALLISTRPS
+#GETGAMELIST 
+duel
+#JOINGAME 
+\imagenes\duelo.gif
+Sin partidas activas
+\sonidos\poder.WAV
+El nombre de la partida no puede ser mayor de 32 caracteres
+torneo
+#CREATEGAME 
+\musica\Northern_Lights.mid
+\sonidos\muerte
+.WAV
+\sonidos\click.WAV
+\sonidos\n_cartas.wav
+\sonidos\invocar.WAV
+\sonidos\esquize.WAV
+\sonidos\lucha1.WAV
+\sonidos\n_lvl.WAV
+\sonidos\muerte_humano
+\sonidos\turn.WAV
+\sonido.dat
+\musica\*.mid
+\musica\
+\musica\Northern Lights.mid
+\sonidos\llegada.WAV
+\sonidos\destruct.WAV
+/imagenes
+/musica
+/sonidos
+#GETDEALLIST 
+#JOINDEAL 
+lstinter
+>in 
+>>process 
+>>param no rec
+Sin intercambios activos
+inter
+#CREATEDEAL 
+creinter
+CREATEDEALRPS
+#SETPLAYERACEPT 
+#SETPLAYERNOACEPT 
+#ENDDEAL 
+#SHOWCARDDECK 
+#MSGDEAL 
+#UNJOINDEAL 
+#SETDEALIDX 
+#SHOWGOLDDEALM 
+#SHOWGOLDDEALP 
+#SHOWCARDIN 
+#SETPINGDEAL 
+PINGRPS
+UNJOINDEALRPS
+SETDEALINFORM
+GETDEALOPPRPS
+CLEARDEALINFORM
+SETDEALREADY
+GETDUELCARDLISTRPS
+GETINACTCARDLISTCNTRPS
+SHOWCARDOUTRPS
+SHOWCARDINRPS
+SHOWCARDDECKRPS
+MSGDEAL
+ENDDEAL
+GETDEALFINAL
+GETUSERLEVELRPS
+SHOWGOLDDEALPRPS
+SHOWGOLDDEALMRPS
+GETUSERGOLDRPS
+GETDECKACTRPS
+#GETDEALOPP 
+#SETPLAYERDREADY 
+#SETPLAYERDUNREADY 
+#GETDUELCARDLIST 
+ monedas
+#SHOWCARDOUT 
+#NAMESESSION 
+apuestages
+En intercambio se ha llevado a cabo
+El contrincante se ha retirado del intercambio
+ ORO:
+#GETDEALFINALRPS 
+#MSGDEALWARN 
+ 1 20
+#MSGPRIV 
+privado
+#JOINPRIV 
+:Privado Rolplay.net
+MSGPRIV
+GETCARDIMAGERPS
+NAMESESSIONRPS
+#SETUSERCHANNEL 
+Actualmente te encuentras en este canal
+\imagenes\sala.gif
+#GETLSTCHANNELS 
+#GETDUELRES 
+ mins
+Solo se permiten 5 cartas por apuesta
+#SETGOLDBET 
+GETINACTCARDLISTRPS
+SETGOLDBETRPS
+SETCARDBETRPS
+GETBETCARDLISTRPS
+GETGOLDBETRPS
+#GETBETCARDLIST 
+#SETREFRESHBET 
+#SETCARDBET 
+apuestaver
+Estadisticas de Retos
+Retos arbol1
+Retos en curso
+ESTACTIVEGAMES
+Ultimos Retos jugados
+ESTLASTGAMES
+Estadistica de Jugadores
+Jugadores arbol1
+Usuarios Online
+ESTUSERONLINE
+TOP 10
+ESTTOP10
+TOP 100
+ESTTOP50
+Mas ricos
+ESTRICH
+Estadistica de Cartas
+Cartas arbol1
+50 Cartas mas deseadas
+ESTCARDNAME
+noactiv
+Esta estadistica aun no se encuentra disponible
+arbol1
+Estadisticas_lst
+ESTRPS
+ESTRPSCNT
+GETCARDIMAGEMAINRPS
+Definiendo cantidad de informacion
+CNT 
+Conectando al servidor
+NOUSER
+estlst
+Estadisticas_par
+Recibiendo informacion 
+Total: 
+ 10 
+Realizando peticion de informacion
+ 0 10
+No se ha encontrado informacion
+Presentando informacion
+NVIS
+#GETCARDIMAGEMAIN 
+Informacion de partida
+GETGAMEINF 
+Mas informacion 
+NVIS:G-
+Mas informacion sobre partida
+NVIS:C-
+Mas informacion sobre la carta
+GETUSERINFADVRPS
+GETUSERPASSRPS
+GETUSEREMAILRPS
+GETUSERDESCRPS
+GETUSERAUTOCANRPS
+#SETUSEREMAIL 
+#SETUSERPASS 
+#SETUSERDESC 
+#SETUSERAUTOCAN 
+GETUSERINFADV
+ Dias 
+#GETUSERPASS 
+#GETUSEREMAIL 
+#GETUSERAUTOCAN 
+#GETUSERDESC 
+NOEMAIL
+Ultimas partidas
+ESTUSERLASTGAMES
+NODESC
+GETGAMEINFRPS
+3 secs
+5 secs
+10 secs
+15 secs
+Cancelada
+En curso
+Finalizada
+Retirada
+NOGAN
+#ASKJOINCLAN 
+#GETLSTCLANES 
+#ISMEMBERCLAN 
+clanes
+GETLSTCLANESRPS
+ISMEMBERCLANRPS
+ASKJOINCLANRPS
+ERROR:
+ADDED
+Tu solicitud de acceso al clan ha sido aceptada.
+#DESTROYCLAN 
+Tu solicitud de acceso al clan ha sido enviado a los operadores de clan
+El nombre del clan no puede estar vacio o no puede tener una longitud mayor de 25 caracteres. Tampoco se permite doble espacio o caracteres raros
+CREATECLANRPS
+Las siglas del clan deben tener una longitud de 3 caracteres
+Las descripcion del clan deben tener una longitud menor de 200 caracteres
+Las Url del clan deben tener una longitud menor de 200 caracteres
+#CREATECLAN 
+El clan ha sido creado con exito. Para administrarlo debes entrar en la sala de clan
+Esta opcion producira el abandono del clan, ¿Estas seguro?
+#LEAVECLAN 
+#ADDUSERCLAN 
+Esta opcion realizara la disolucion del clan, ¿Estas seguro?
+#REMUSERCLAN 
+#SETCLANMAXMEMBERS 
+#SETCLANFREE 
+#SETCLANURL 
+#SETCLANDESC 
+ESTCLANMOVS
+#OPUSERCLAN 
+#DEOPUSERCLAN 
+#GETCLANMEMBERCNT 
+#GETCLANINF 
+#GETCLANGOLD 
+#ISMEMBERTHISCLAN 
+GETCLANMEMBERCNTRPS
+GETCLANMEMBERLSTRPS
+ISCREATORCLANRPS
+ISOPCLANRPS
+ISMEMBERTHISCLANRPS
+GETCLANGOLDRPS
+GETCLANINFRPS
+ADDUSERCLANRPS
+REMUSERCLANRPS
+OPUSERCLANRPS
+DEOPUSERCLANRPS
+DESTROYCLANRPS
+-OK-
+LEAVECLANRPS
+#GETCLANMEMBERLST 
+ 1 20 
+(Pendiente)
+Se ha detectado un error recibiendo la informacion de los miembros. Intenta acceder de nuevo en unos segundos
+Creador
+#ISOPCLAN 
+Director
+Seguidor
+ ha sido añadido al clan
+ ha sido expulsado del clan
+ ha sido nombrado Director del clan
+ ha sido rebajado a seguidor del clan
+El clan ha sido disuelto
+Solo se permiten 20 cartas publicadas para la venta
+Has abandonado el clan. A continuacion se cerrara el cliente para actualizar toda la informacion necesaria
+Miembro
+No Miembro
+#ISCREATORCLAN 
+#SETCLANSELLCARD 
+ empty
+#SETCLEANCLANSELLCARD 
+Precio:
+Precio: 
+GETCLANSELLCARDLISTRPS
+SETCLANSELLCARDRPS
+SETCLEANCLANSELLCARDRPS
+GETCARDVALRPS
+#GETCLANSELLCARDLIST 
+#GIVECLANGOLD 
+GIVECLANGOLDRPS
+#TAKECLANGOLD 
+TAKECLANGOLDRPS
+#BUYCARD 
+#GETCLANSELLPUBLICCNT 
+ (Clan: 
+GETCLANSELLPUBLICCNTRPS
+GETCLANSELLPUBLICRPS
+BUYCARDRPS
+#GETCLANSELLPUBLIC 
+ 1 10
+ERROR
+La carta ha sido adquirida con exito
+GETCARDDESCRPS
+GETCARDAGERPS
+GETCARDPROFILERPS
+GETCARDNDECKRPS
+#GETCARDPROFILE 
+#GETCARDDESC 
+#GETCARDAGE 
+#GETCARDNDECK 
+ Dias
+ Cartas por baraja
+No dispones de 
+ monedas de oro
+#SETINACTIVEDECK 
+cartas
+SETINACTIVEDECKRPS
+GETCARDHANDRPS
+#GETCARDHAND 
+#DELETEDECK 
+#SETDECKACT 
+#MOVECARD 
+Para mover cartas entre barajas, primero debes seleccionar las cartas + la baraja destino en la ventana de barajas
+(Por Defecto)
+Baraja seleccionada: 
+#CREATEDECK
+SETCARDALBUMRPS
+El nombre de la baraja no es valido. No puede contener espacios
+#SETCARDALBUM 
+#GETLSTCARDSLEVELS 
+#GETLSTHORD 
+GETLSTDECKSRPS
+GETLSTCARDSLEVELSRPS
+GETLSTHORDRPS
+GETLSTCARDSEXISTENRPS
+GETDOIHAVECARDRPS
+MSGNOAWAY
+REMCARDALBUMRPS
+#REMCARDALBUM 
+Todos
+#GETLSTCARDSEXISTEN 
+nocards
+#GETDOIHAVECARD 
+\imagenes\crt_noalbum.jpg
+login
+Se ha perdido la conexion con el servidor. Intenta acceder de nuevo en unos segundos.
+MSGAWAY
+GETLSTSRVRPS
+GETLSTSRVCNTRPS
+LSTCONNRPS
+LSTCONNCNTRPS
+GETUSERXPRPS
+GETUSERPOSRPS
+GETWINSRPS
+GETLOSSRPS
+MSGADD
+GETMSGJOINRPS
+GETUSERAWAYRPS
+GETUSERPRIVRPS
+MSGDUEL
+MSGDEALWARN
+GETUSERCHANNELRPS
+MSGKICK
+MSGBAN
+MSGOP
+MSGDEOP
+MSGFLOOD
+SENDPRIVTRYRPS
+SENDPRIVTRYWARN
+GETUSERINFRPS
+GETCOUNTCONNRPS
+GETUSERLEVELCHANELRPS
+BUYCARDSRPS
+GETACTCARDLISTRPS
+GETACTCARDLISTCNTRPS
+GETLSTCHANNELSRPS
+SETUSERCHANNELRPS
+GETGAMELISTRPS
+JOINGAMERPS
+CREATEGAMERPS
+UNJOINGAMERPS
+SETGAMEREADY
+SETGAMEINFORM
+GETGAMEOPPRPS
+GETGAMEOPPLEVELRPS
+GETGAMEOPPPVRPS
+CLEARGAMEINFORM
+BEGINTURN
+ENDTURN
+SENDACTUALPASS
+GETCARDTYPERPS
+GETCARDPOWERRPS
+SENDATTACKWARN
+DEDUCTPV
+KILLCARD
+SENDATTACKEND
+DEADPLAYER
+SHOWCARDOPPACT
+SHOWCARDOPPSITACT
+SHOWCARDVEERACT
+SHOWCARDUNVEERACT
+SHOWCARDUNVEEROACT
+DEDUCTPVOPP
+KILLCARDOPP
+NOCARDS
+MSGGAME
+ENDATTACK
+GETCARDESPRPS
+GETCARDESPFRPS
+SHOWCARDD
+SHOWCARDA
+GIRMONS
+GIRPOD
+ADDPV
+ADDPVOPP
+REMPOD
+REMAMU
+REMMONS
+GETCARDCOUNTRPS
+GETCARDCOUNTOPPRPS
+SETCATTACKRPS
+SETCDEFENDRPS
+SETAMUVALRPS
+SETPODCRIVALRPS
+GETGOLDBETOPPRPS
+GETDUELNUMCARDBETRPS
+GETDUELNUMCARDBETOPPRPS
+SETREFRESHBET
+GETDUELNUMCARDSRPS
+GETDUELBEGINGUSRPS
+GETDUELRESRPS
+ADDUSERRPS
+SETDECKACTRPS
+DELETEDECKRPS
+CREATEDECKRPS
+Error en la recepcion de un paquete. Envia el fichero log.log ubicado en la carpeta del juego a webmaster@rolplay.net para que podamos solucionar el problema.
+1&'2
+1&'(2
+_extenty
+Añadir
+1&(2
+Salir
+Vender
+Cancelar
+Crear
+Arreglar
+Unirse
+lst_imagenes
+1&'(
+Refrescar
+Crear Clan
+Unirse al Clan
+Informacion de Clan
+Comprar Cartas
+Enviar
+Probar
+Cerrar
+Tomar
+Entregar
+No Vender
+Venta
+Informacion
+Comprar
+á¥¥¥
+Apostar
+No Apostar
+Ver Movimientos
+Aceptar en Clan
+Expulsar del Clan
+Nombrar Director
+Nombrar Seguidor
+Mas Informacion
+Vender Cartas
+Entregar Oro
+Tomar Oro
+Guardar
+Disolver Clan
+Abandonar Clan
+Acceder
+Nuevo usuario
+1&'(5
+Volver
+1&'5
+Baraja por defecto
+Borrar Baraja
+Crear Baraja
+Mover Cartas
+Comprar Sobre
+Vender Carta
+Usar
+No Usar
+Probar Baraja
+Barajas
+Album
+Retos
+Cartas
+Intercambios
+Salas
+Estadisticas
+Manual
+Clanes
+Clan
+Coleccionar
+Inf.
+Abandonar
+á-áÃ
+Hablar
+Siguiente
+Rendirse
+No defender
+Zð¥¥
+VS_VERSION_INFO
+VarFileInfo
+Translation
+StringFileInfo
+0C0A04B0
+CompanyName
+Rolplay.net
+ProductName
+cliente
+FileVersion
+3.09
+ProductVersion
+InternalName
+RPcliente
+OriginalFilename
+RPcliente.exe

@@ -1,0 +1,92 @@
+{
+"GETINACTCARDLISTRPS": [
+{
+"obj": "Cartas",
+"off": "0x708",
+"stub": "0x424de4",
+"kind": "var",
+"handler": "ord300@this+0x3c"
+}
+],
+"GETINACTCARDLISTCNTRPS": [
+{
+"obj": "Cartas",
+"off": "0x704",
+"stub": "0x424dd5",
+"kind": "var",
+"handler": "ord307@this+0x38"
+}
+],
+"GETDECKACTRPS": [
+{
+"obj": "Cartas",
+"off": "0x700",
+"stub": "0x424dc6",
+"kind": "var",
+"handler": "ord301@this+0x38"
+}
+],
+"GETLSTDECKSRPS": [
+{
+"obj": "Cartas",
+"off": "0x6f8",
+"stub": "0x424da8",
+"kind": "var",
+"handler": "ord300@this+0x34"
+}
+],
+"GETLSTCARDSLEVELSRPS": [
+{
+"obj": "Cartas",
+"off": "0x70c",
+"stub": "0x424df3",
+"kind": "var",
+"handler": "ord306@this+0x3c"
+}
+],
+"GETLSTHORDRPS": [
+{
+"obj": "Cartas",
+"off": "0x710",
+"stub": "0x424f83",
+"kind": "func",
+"handler": "0x7613d0"
+}
+],
+"GETLSTCARDSEXISTENRPS": [
+{
+"obj": "Cartas",
+"off": "0x718",
+"stub": "0x424f9d",
+"kind": "func",
+"handler": "0x7616e0"
+}
+],
+"GETDOIHAVECARDRPS": [
+{
+"obj": "Cartas",
+"off": "0x71c",
+"stub": "0x424faa",
+"kind": "func",
+"handler": "0x7624f0"
+}
+],
+"SETCARDALBUMRPS": [
+{
+"obj": "Cartas",
+"off": "0x728",
+"stub": "0x424fd1",
+"kind": "func",
+"handler": "0x764b00"
+}
+],
+"REMCARDALBUMRPS": [
+{
+"obj": "Cartas",
+"off": "0x72c",
+"stub": "0x424fde",
+"kind": "func",
+"handler": "0x764e40"
+}
+]
+}

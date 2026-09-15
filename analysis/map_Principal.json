@@ -1,0 +1,971 @@
+{
+"GETLSTSRVRPS": [
+{
+"obj": "Acceso",
+"off": "0x700",
+"stub": "0x41bd58",
+"kind": "func",
+"handler": "0x757a10"
+}
+],
+"GETLSTSRVCNTRPS": [
+{
+"obj": "Acceso",
+"off": "0x704",
+"stub": "0x41bd72",
+"kind": "func",
+"handler": "0x7593a0"
+},
+{
+"obj": "Principal",
+"off": "0x700",
+"stub": "0x42c247",
+"kind": "func",
+"handler": "0x70f1d0"
+}
+],
+"LSTCONNRPS": [
+{
+"obj": "Principal",
+"off": "0x708",
+"stub": "0x42c2d6",
+"kind": "func",
+"handler": "0x710780"
+},
+{
+"obj": "Cartas",
+"off": "0x714",
+"stub": "0x424f90",
+"kind": "func",
+"handler": "0x761580"
+}
+],
+"LSTCONNCNTRPS": [
+{
+"obj": "Principal",
+"off": "0x70c",
+"stub": "0x42c2e3",
+"kind": "func",
+"handler": "0x7110e0"
+}
+],
+"GETUSERXPRPS": [
+{
+"obj": "Principal",
+"off": "0x704",
+"stub": "0x42c2c9",
+"kind": "func",
+"handler": "0x7105b0"
+}
+],
+"GETUSERGOLDRPS": [
+{
+"obj": "Cartas",
+"off": "0x710",
+"stub": "0x424f83",
+"kind": "func",
+"handler": "0x7613d0"
+},
+{
+"obj": "Principal",
+"off": "0x714",
+"stub": "0x42c2fd",
+"kind": "func",
+"handler": "0x711510"
+}
+],
+"GETUSERPOSRPS": [
+{
+"obj": "Principal",
+"off": "0x748",
+"stub": "0x42c3cd",
+"kind": "func",
+"handler": "0x714030"
+}
+],
+"GETWINSRPS": [
+{
+"obj": "Principal",
+"off": "0x71c",
+"stub": "0x42c317",
+"kind": "func",
+"handler": "0x7118f0"
+}
+],
+"GETLOSSRPS": [
+{
+"obj": "Principal",
+"off": "0x720",
+"stub": "0x42c324",
+"kind": "func",
+"handler": "0x711b00"
+}
+],
+"MSGADD": [
+{
+"obj": "Principal",
+"off": "0x724",
+"stub": "0x42c331",
+"kind": "func",
+"handler": "0x711d10"
+}
+],
+"GETMSGJOINRPS": [
+{
+"obj": "Principal",
+"off": "0x728",
+"stub": "0x42c33e",
+"kind": "func",
+"handler": "0x712430"
+}
+],
+"GETUSERAWAYRPS": [
+{
+"obj": "Principal",
+"off": "0x72c",
+"stub": "0x42c372",
+"kind": "func",
+"handler": "0x712a80"
+}
+],
+"GETUSERPRIVRPS": [
+{
+"obj": "Principal",
+"off": "0x730",
+"stub": "0x42c37f",
+"kind": "func",
+"handler": "0x712c90"
+}
+],
+"MSGDUEL": [
+{
+"obj": "Principal",
+"off": "0x73c",
+"stub": "0x42c3a6",
+"kind": "func",
+"handler": "0x712f60"
+}
+],
+"MSGDEALWARN": [
+{
+"obj": "Principal",
+"off": "0x7a4",
+"stub": "0x42c505",
+"kind": "func",
+"handler": "0x71bb10"
+}
+],
+"MSGAWAY": [
+{
+"obj": "Principal",
+"off": "0x740",
+"stub": "0x42c3b3",
+"kind": "func",
+"handler": "0x713500"
+}
+],
+"MSGNOAWAY": [
+{
+"obj": "Principal",
+"off": "0x744",
+"stub": "0x42c3c0",
+"kind": "func",
+"handler": "0x713ab0"
+}
+],
+"GETUSERCHANNELRPS": [
+{
+"obj": "Principal",
+"off": "0x74c",
+"stub": "0x42c3da",
+"kind": "func",
+"handler": "0x7141e0"
+}
+],
+"MSGKICK": [
+{
+"obj": "Principal",
+"off": "0x758",
+"stub": "0x42c401",
+"kind": "func",
+"handler": "0x714d70"
+}
+],
+"MSGBAN": [
+{
+"obj": "Principal",
+"off": "0x75c",
+"stub": "0x42c40e",
+"kind": "func",
+"handler": "0x715050"
+}
+],
+"MSGOP": [
+{
+"obj": "Principal",
+"off": "0x760",
+"stub": "0x42c41b",
+"kind": "func",
+"handler": "0x715330"
+}
+],
+"MSGDEOP": [
+{
+"obj": "Principal",
+"off": "0x764",
+"stub": "0x42c428",
+"kind": "func",
+"handler": "0x715610"
+}
+],
+"MSGFLOOD": [
+{
+"obj": "Principal",
+"off": "0x770",
+"stub": "0x42c44f",
+"kind": "func",
+"handler": "0x716250"
+}
+],
+"SENDPRIVTRYRPS": [
+{
+"obj": "Principal",
+"off": "0x768",
+"stub": "0x42c435",
+"kind": "func",
+"handler": "0x7158f0"
+}
+],
+"SENDPRIVTRYWARN": [
+{
+"obj": "Principal",
+"off": "0x76c",
+"stub": "0x42c442",
+"kind": "func",
+"handler": "0x715e30"
+}
+],
+"GETUSERINFRPS": [
+{
+"obj": "Principal",
+"off": "0x780",
+"stub": "0x42c483",
+"kind": "func",
+"handler": "0x7182d0"
+}
+],
+"GETCOUNTCONNRPS": [
+{
+"obj": "Principal",
+"off": "0x784",
+"stub": "0x42c49d",
+"kind": "func",
+"handler": "0x719230"
+}
+],
+"GETUSERLEVELCHANELRPS": [
+{
+"obj": "Principal",
+"off": "0x7a8",
+"stub": "0x42c512",
+"kind": "func",
+"handler": "0x71bf50"
+}
+],
+"BUYCARDSRPS": [
+{
+"obj": "Cartas",
+"off": "0x718",
+"stub": "0x424f9d",
+"kind": "func",
+"handler": "0x7616e0"
+}
+],
+"GETINACTCARDLISTRPS": [
+{
+"obj": "Cartas",
+"off": "0x71c",
+"stub": "0x424faa",
+"kind": "func",
+"handler": "0x7624f0"
+}
+],
+"GETINACTCARDLISTCNTRPS": [
+{
+"obj": "Cartas",
+"off": "0x72c",
+"stub": "0x424fde",
+"kind": "func",
+"handler": "0x764e40"
+}
+],
+"GETACTCARDLISTRPS": [
+{
+"obj": "Cartas",
+"off": "0x720",
+"stub": "0x424fb7",
+"kind": "func",
+"handler": "0x7634e0"
+}
+],
+"GETACTCARDLISTCNTRPS": [
+{
+"obj": "Cartas",
+"off": "0x730",
+"stub": "0x424feb",
+"kind": "func",
+"handler": "0x765160"
+}
+],
+"GETCARDIMAGERPS": [
+{
+"obj": "Cartas",
+"off": "0x724",
+"stub": "0x424fc4",
+"kind": "func",
+"handler": "0x764530"
+},
+{
+"obj": "Torneo",
+"off": "0x72c",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETCARDVALRPS": [
+{
+"obj": "Cartas",
+"off": "0x728",
+"stub": "0x424fd1",
+"kind": "func",
+"handler": "0x764b00"
+}
+],
+"GETDECKACTRPS": [
+{
+"obj": "Cartas",
+"off": "0x734",
+"stub": "0x424ff8",
+"kind": "func",
+"handler": "0x765480"
+}
+],
+"GETLSTDECKSRPS": [
+{
+"obj": "Barajas",
+"off": "0x6f8",
+"stub": "0x419d4f",
+"kind": "func",
+"handler": "0x7bb7c0"
+},
+{
+"obj": "Cartas",
+"off": "0x738",
+"stub": "0x425005",
+"kind": "func",
+"handler": "0x765810"
+}
+],
+"GETLSTCHANNELSRPS": [
+{
+"obj": "Canales",
+"off": "0x6f8",
+"stub": "0x412d88",
+"kind": "func",
+"handler": "0x785ce0"
+}
+],
+"SETUSERCHANNELRPS": [
+{
+"obj": "Canales",
+"off": "0x6fc",
+"stub": "0x412daf",
+"kind": "func",
+"handler": "0x786590"
+}
+],
+"GETGAMELISTRPS": [
+{
+"obj": "Partidas",
+"off": "0x6f8",
+"stub": "0x41448c",
+"kind": "func",
+"handler": "0x7685d0"
+}
+],
+"JOINGAMERPS": [
+{
+"obj": "Partidas",
+"off": "0x6fc",
+"stub": "0x414499",
+"kind": "func",
+"handler": "0x769070"
+}
+],
+"CREATEGAMERPS": [
+{
+"obj": "Crear_Partida",
+"off": "0x6f8",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETUSERLEVELRPS": [
+{
+"obj": "Principal",
+"off": "0x710",
+"stub": "0x42c2f0",
+"kind": "func",
+"handler": "0x7112a0"
+},
+{
+"obj": "Torneo",
+"off": "0x6f8",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"UNJOINGAMERPS": [
+{
+"obj": "Torneo",
+"off": "0x6fc",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SETGAMEREADY": [
+{
+"obj": "Torneo",
+"off": "0x700",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SETGAMEINFORM": [
+{
+"obj": "Torneo",
+"off": "0x704",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETGAMEOPPRPS": [
+{
+"obj": "Torneo",
+"off": "0x708",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETGAMEOPPLEVELRPS": [
+{
+"obj": "Torneo",
+"off": "0x70c",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETGAMEOPPPVRPS": [
+{
+"obj": "Torneo",
+"off": "0x710",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"CLEARGAMEINFORM": [
+{
+"obj": "Torneo",
+"off": "0x714",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"BEGINTURN": [
+{
+"obj": "Torneo",
+"off": "0x718",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"ENDTURN": [
+{
+"obj": "Torneo",
+"off": "0x724",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SENDACTUALPASS": [
+{
+"obj": "Torneo",
+"off": "0x720",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETCARDHANDRPS": [
+{
+"obj": "Torneo",
+"off": "0x728",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETCARDTYPERPS": [
+{
+"obj": "Torneo",
+"off": "0x730",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETCARDPOWERRPS": [
+{
+"obj": "Torneo",
+"off": "0x734",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SENDATTACKWARN": [
+{
+"obj": "Torneo",
+"off": "0x758",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"DEDUCTPV": [
+{
+"obj": "Torneo",
+"off": "0x75c",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"KILLCARD": [
+{
+"obj": "Torneo",
+"off": "0x760",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SENDATTACKEND": [
+{
+"obj": "Torneo",
+"off": "0x764",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"DEADPLAYER": [
+{
+"obj": "Torneo",
+"off": "0x768",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SHOWCARDOPPACT": [
+{
+"obj": "Torneo",
+"off": "0x76c",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SHOWCARDOPPSITACT": [
+{
+"obj": "Torneo",
+"off": "0x770",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SHOWCARDVEERACT": [
+{
+"obj": "Torneo",
+"off": "0x774",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SHOWCARDUNVEERACT": [
+{
+"obj": "Torneo",
+"off": "0x788",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SHOWCARDUNVEEROACT": [
+{
+"obj": "Torneo",
+"off": "0x778",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"DEDUCTPVOPP": [
+{
+"obj": "Torneo",
+"off": "0x78c",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"KILLCARDOPP": [
+{
+"obj": "Torneo",
+"off": "0x790",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"PINGRPS": [
+{
+"obj": "Torneo",
+"off": "0x794",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"NOCARDS": [
+{
+"obj": "Torneo",
+"off": "0x798",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"MSGGAME": [
+{
+"obj": "Torneo",
+"off": "0x7a0",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"ENDATTACK": [
+{
+"obj": "Torneo",
+"off": "0x7a4",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETCARDESPRPS": [
+{
+"obj": "Torneo",
+"off": "0x738",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETCARDESPFRPS": [
+{
+"obj": "Torneo",
+"off": "0x7b4",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SHOWCARDD": [
+{
+"obj": "Torneo",
+"off": "0x7b8",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SHOWCARDA": [
+{
+"obj": "Torneo",
+"off": "0x7bc",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GIRMONS": [
+{
+"obj": "Torneo",
+"off": "0x7c4",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GIRPOD": [
+{
+"obj": "Torneo",
+"off": "0x7c8",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"ADDPV": [
+{
+"obj": "Torneo",
+"off": "0x7cc",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"ADDPVOPP": [
+{
+"obj": "Torneo",
+"off": "0x7d0",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"REMPOD": [
+{
+"obj": "Torneo",
+"off": "0x7d4",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"REMAMU": [
+{
+"obj": "Torneo",
+"off": "0x7d8",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"REMMONS": [
+{
+"obj": "Torneo",
+"off": "0x7dc",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"LEVELUP": [
+{
+"obj": "Torneo",
+"off": "0x7f0",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"LEVELUPOPP": [
+{
+"obj": "Torneo",
+"off": "0x7f4",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETCARDCOUNTRPS": [
+{
+"obj": "Torneo",
+"off": "0x7f8",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETCARDCOUNTOPPRPS": [
+{
+"obj": "Torneo",
+"off": "0x7fc",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SETCATTACKRPS": [
+{
+"obj": "Torneo",
+"off": "0x808",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SETCDEFENDRPS": [
+{
+"obj": "Torneo",
+"off": "0x80c",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SETAMUVALRPS": [
+{
+"obj": "Torneo",
+"off": "0x810",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SETPODCRIVALRPS": [
+{
+"obj": "Torneo",
+"off": "0x814",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETGOLDBETRPS": [
+{
+"obj": "Torneo",
+"off": "0x820",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETGOLDBETOPPRPS": [
+{
+"obj": "Torneo",
+"off": "0x828",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETDUELNUMCARDBETRPS": [
+{
+"obj": "Torneo",
+"off": "0x824",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETDUELNUMCARDBETOPPRPS": [
+{
+"obj": "Torneo",
+"off": "0x82c",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SETREFRESHBET": [
+{
+"obj": "Torneo",
+"off": "0x830",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETDUELNUMCARDSRPS": [
+{
+"obj": "Torneo",
+"off": "0x834",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETDUELBEGINGUSRPS": [
+{
+"obj": "Torneo",
+"off": "0x838",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"GETDUELRESRPS": [
+{
+"obj": "Torneo_res",
+"off": "0x6f8",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"ADDUSERRPS": [
+{
+"obj": "Alta",
+"off": "0x6f8",
+"stub": null,
+"kind": null,
+"handler": null
+}
+],
+"SETDECKACTRPS": [
+{
+"obj": "Barajas",
+"off": "0x6fc",
+"stub": "0x419d83",
+"kind": "func",
+"handler": "0x7bc5e0"
+}
+],
+"DELETEDECKRPS": [
+{
+"obj": "Barajas",
+"off": "0x700",
+"stub": "0x419d90",
+"kind": "func",
+"handler": "0x7bc720"
+}
+],
+"CREATEDECKRPS": [
+{
+"obj": "Barajas",
+"off": "0x708",
+"stub": "0x419daa",
+"kind": "func",
+"handler": "0x7bcaf0"
+}
+]
+}

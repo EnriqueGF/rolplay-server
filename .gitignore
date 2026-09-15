@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.log
+*.png
+shots/
+# binarios del juego (con copyright): no se suben
+*.exe
+*.dll
+*.ocx
+*.oca
+*.pdb
+game/
+install/
