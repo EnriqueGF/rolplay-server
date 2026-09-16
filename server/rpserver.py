@@ -66,8 +66,6 @@ def serve_client(sock, addr, reload_handlers):
                 cmd, args = parts[0], parts[1:]
                 try:
                     if reload_handlers:
-                        if hasattr(handlers, "duel"):
-                            importlib.reload(handlers.duel)
                         importlib.reload(handlers)
                     h = getattr(handlers, "h_" + cmd, None)
                     if h is None:

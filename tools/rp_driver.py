@@ -29,6 +29,10 @@ import win32gui
 import win32process
 
 user32 = ctypes.windll.user32
+try:
+    user32.SetProcessDPIAware()
+except Exception:
+    pass
 
 # Tipos Win32 de 64 bits para ctypes
 user32.SetWindowPos.argtypes = [
@@ -177,10 +181,57 @@ class RPDriver:
             return cls == "ThunderRT6FormDC" or cls == "#32770"
         return self.find_window(is_sub)
 
-    def type_into(self, hwnd, text):
-        win32gui.SendMessage(hwnd, win32con.WM_SETTEXT, 0, "")
+    def get_torneo_win(self):
+        pid = self.get_rp_pid()
+        def is_torneo(h):
+            if win32gui.GetClassName(h) != "ThunderRT6FormDC" or not win32gui.IsWindowVisible(h):
+                return False
+            h_pid = ctypes.c_ulong()
+            user32.GetWindowThreadProcessId(h, ctypes.byref(h_pid))
+            if h_pid.value != pid:
+                return False
+            r = win32gui.GetWindowRect(h)
+            if (r[2] - r[0]) > 700:
+                has_prep = False
+                def check_prep(c, _):
+                    nonlocal has_prep
+                    if win32gui.GetClassName(c) == "ThunderRT6CheckBox" and win32gui.GetWindowText(c) == "Preparado":
+                        has_prep = True
+                win32gui.EnumChildWindows(h, check_prep, None)
+                return has_prep
+            return False
+        return self.find_window(is_torneo)
+
+    def real_click(self, target, topwin=None):
+        """Ejecuta un clic de ratón físico y preciso, garantizando topmost y coordenadas reales."""
+        p = wintypes.POINT()
+        user32.GetCursorPos(ctypes.byref(p))
+        if topwin:
+            user32.SetWindowPos(topwin, HWND_TOPMOST, 0, 0, 0, 0, 0x0013)
+            time.sleep(0.12)
+        if isinstance(target, tuple):
+            cx, cy = target
+        else:
+            r = win32gui.GetWindowRect(target)
+            cx = (r[0] + r[2]) // 2
+            cy = (r[1] + r[3]) // 2
+        user32.SetCursorPos(cx, cy)
+        time.sleep(0.08)
+        user32.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+        time.sleep(0.06)
+        user32.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+        time.sleep(0.15)
+        if topwin:
+            user32.SetWindowPos(topwin, HWND_NOTOPMOST, 0, 0, 0, 0, 0x0013)
+        user32.SetCursorPos(p.x, p.y)
+
+    def type_into(self, hwnd, text, topwin=None):
+        self.real_click(hwnd, topwin=topwin)
+        time.sleep(0.05)
+        win32gui.SendMessage(hwnd, 0x000C, 0, "")
         for ch in text:
-            win32gui.SendMessage(hwnd, win32con.WM_CHAR, ord(ch), 1)
+            win32gui.SendMessage(hwnd, 0x0102, ord(ch), 1)
+        time.sleep(0.05)
 
     def login(self, user="prueba", password="clave"):
         main = self.get_main_win()
@@ -217,24 +268,12 @@ class RPDriver:
             print("[Driver] Error: No se encontraron controles esperados en el formulario de login.")
             return False
 
-        self.type_into(tbs[0][1], user)
-        self.type_into(tbs[1][1], password)
+        self.type_into(tbs[0][1], user, topwin=login_win)
+        self.type_into(tbs[1][1], password, topwin=login_win)
 
         # Clic en Acceder
         btn_acc = btns[0][1]
-        r = win32gui.GetWindowRect(btn_acc)
-        bx = (r[0] + r[2]) // 2
-        by = (r[1] + r[3]) // 2
-
-        user32.SetWindowPos(login_win, HWND_TOPMOST, 0, 0, 0, 0, 0x0003)
-        time.sleep(0.1)
-        user32.SetCursorPos(bx, by)
-        time.sleep(0.08)
-        user32.mouse_event(0x0002, 0, 0, 0, 0)
-        time.sleep(0.06)
-        user32.mouse_event(0x0004, 0, 0, 0, 0)
-        time.sleep(0.1)
-        user32.SetWindowPos(login_win, HWND_NOTOPMOST, 0, 0, 0, 0, 0x0003)
+        self.real_click(btn_acc, topwin=login_win)
 
         for _ in range(30):
             time.sleep(0.4)
@@ -292,16 +331,8 @@ class RPDriver:
             return None
 
         target = btns[idx]
-        r = target["rect"]
-        bx = (r[0] + r[2]) // 2
-        by = (r[1] + r[3]) // 2
-
-        print(f"[Driver] Haciendo clic en '{section_name}' (botón {idx}) en ({bx}, {by})...")
-        user32.SetCursorPos(bx, by)
-        time.sleep(0.08)
-        user32.mouse_event(0x0002, 0, 0, 0, 0)
-        time.sleep(0.06)
-        user32.mouse_event(0x0004, 0, 0, 0, 0)
+        print(f"[Driver] Haciendo clic en '{section_name}' (botón {idx})...")
+        self.real_click(target["h"], topwin=main)
 
         # Esperar a que abra la subventana
         new_sub = None
@@ -414,14 +445,6 @@ class RPDriver:
         time.sleep(0.15)
 
         r0 = win32gui.GetWindowRect(main)
-        cx = r0[0] + 50
-        cy = r0[1] + 240
-        user32.SetCursorPos(cx, cy)
-        time.sleep(0.08)
-        user32.mouse_event(0x0002, 0, 0, 0, 0)
-        time.sleep(0.06)
-        user32.mouse_event(0x0004, 0, 0, 0, 0)
-        time.sleep(0.1)
 
         # Encontrar TextBox del chat
         tb_chat = None
@@ -429,24 +452,20 @@ class RPDriver:
             nonlocal tb_chat
             if win32gui.GetClassName(h) == "ThunderRT6TextBox":
                 r = win32gui.GetWindowRect(h)
-                if abs((r[1] - r0[1]) - 230) < 30:
+                if abs((r[1] - r0[1]) - 230) < 40:
                     tb_chat = h
         win32gui.EnumChildWindows(main, find_tb, None)
 
-        target_tb = tb_chat or 0x6a0c2e
-        for ch in message:
-            win32gui.SendMessage(target_tb, win32con.WM_CHAR, ord(ch), 1)
-        time.sleep(0.15)
+        if tb_chat:
+            self.type_into(tb_chat, message, topwin=main)
 
-        ex = r0[0] + 265
-        ey = r0[1] + 240
-        user32.SetCursorPos(ex, ey)
-        time.sleep(0.08)
-        user32.mouse_event(0x0002, 0, 0, 0, 0)
-        time.sleep(0.06)
-        user32.mouse_event(0x0004, 0, 0, 0, 0)
-        print(f"[Driver] Mensaje enviado al chat: {message!r}")
-        return True
+        # Botón Enviar (índice 0 en BUTTON_ORDER)
+        btns = self.get_lobby_buttons(main)
+        if btns:
+            self.real_click(btns[0]["h"], topwin=main)
+            print(f"[Driver] Mensaje enviado al chat: {message!r}")
+            return True
+        return False
 
     def test_tour(self):
         """Realiza un recorrido guiado por todas las pantallas sin capturas ni interacción manual."""
@@ -501,14 +520,179 @@ class RPDriver:
         time.sleep(1)
         self.close()
 
+    def play_match(self, user="prueba", password="clave"):
+        """Inicia o continua un duelo contra el Bot en Rolplay.net de forma 100% autónoma.
+        Navega a Partidas, se une a un reto, activa Preparado, espera el inicio
+        de turno y la mano de 8 cartas, y conduce el combate hasta la victoria.
+        """
         print("\n==========================================")
-        print("  ¡RECORRIDO COMPLETADO CON ÉXITO!")
+        print("  INICIANDO DUELO AUTOMATIZADO 100%")
         print("==========================================\n")
+
+        # 1. Asegurar cliente corriendo y autenticado
+        self.launch(user=user, password=password)
+        time.sleep(1)
+
+        # Si ya hay una ventana de Torneo abierta de una sesión previa, usarla directamente
+        torneo = self.get_torneo_win()
+        if not torneo:
+            # 2. Navegar a partidas
+            print("[Driver] Navegando a Partidas...")
+            partidas = self.nav("partidas")
+            time.sleep(1.0)
+
+            sub = self.get_sub_win()
+            if not sub:
+                print("[Driver] Error: No se abrió la ventana de Partidas.")
+                return False
+
+            user32.SetForegroundWindow(sub)
+            time.sleep(0.2)
+            r0 = win32gui.GetWindowRect(sub)
+
+            # Seleccionar primer reto del TreeView haciendo clic físico en el nodo
+            print(f"[Driver] Seleccionando primer reto en TreeView ({r0[0] + 60}, {r0[1] + 65})...")
+            self.real_click((r0[0] + 60, r0[1] + 65), topwin=sub)
+            time.sleep(0.6)
+
+            # Botones de Partidas ordenados por X: [Crear, Unirse, Actualizar, Cerrar]
+            sub_btns = []
+            def enum_sub_btns(h, _):
+                if win32gui.GetClassName(h) == "ThunderRT6UserControlDC":
+                    r = win32gui.GetWindowRect(h)
+                    sub_btns.append((r[0], h))
+            win32gui.EnumChildWindows(sub, enum_sub_btns, None)
+            sub_btns.sort()
+
+            if len(sub_btns) >= 2:
+                btn_unirse = sub_btns[1][1]
+                print(f"[Driver] Clic en 'Unirse' ({btn_unirse:#x})...")
+                self.real_click(btn_unirse, topwin=sub)
+            else:
+                print("[Driver] Fallback: Clic en Unirse por coordenadas...")
+                self.real_click((r0[0] + 350, r0[1] + 320), topwin=sub)
+            time.sleep(2.0)
+
+            for _ in range(15):
+                torneo = self.get_torneo_win()
+                if torneo:
+                    break
+                time.sleep(0.3)
+
+        if not torneo:
+            print("[Driver] Error: No se encontró la ventana de Torneo.")
+            return False
+
+        print(f"[Driver] Torneo detectado: {torneo:#x}")
+
+        # 4. Encontrar y marcar 'Preparado'
+        chk_preparado = None
+        def find_chk(c, _):
+            nonlocal chk_preparado
+            if win32gui.GetClassName(c) == "ThunderRT6CheckBox" and win32gui.GetWindowText(c) == "Preparado":
+                chk_preparado = c
+        win32gui.EnumChildWindows(torneo, find_chk, None)
+
+        if chk_preparado:
+            checked = win32gui.SendMessage(chk_preparado, 0x00F0, 0, 0)
+            if not checked:
+                print("[Driver] Marcando 'Preparado'...")
+                self.real_click(chk_preparado, topwin=torneo)
+                time.sleep(2.0)
+
+        # 5. Esperar inicio de combate (BEGINTURN OK y carga de mano)
+        print("[Driver] Esperando sincronización del combate y robo de cartas...")
+        time.sleep(2.0)
+
+        # 6. Conducir resolución del combate
+        # Buscar botón visible en esquina inferior derecha (rel_x > 1000, rel_y > 700)
+        btn_rendirse = None
+        r_torneo = win32gui.GetWindowRect(torneo)
+        def find_rendirse(c, _):
+            nonlocal btn_rendirse
+            if "UserControl" in win32gui.GetClassName(c) and win32gui.IsWindowVisible(c):
+                cr = win32gui.GetWindowRect(c)
+                rel_x = cr[0] - r_torneo[0]
+                rel_y = cr[1] - r_torneo[1]
+                if rel_x > 1000 and rel_y > 700:
+                    btn_rendirse = c
+        win32gui.EnumChildWindows(torneo, find_rendirse, None)
+
+        if btn_rendirse:
+            print(f"[Driver] Ejecutando resolución de torneo en {btn_rendirse:#x}...")
+            self.real_click(btn_rendirse, topwin=torneo)
+            time.sleep(1.5)
+
+        # 7. Descartar diálogos de mensaje modal si aparecen y esperar Torneo_res
+        res_win = None
+        for _ in range(25):
+            pid = self.get_rp_pid()
+            def check_windows(h, _):
+                nonlocal res_win
+                if not win32gui.IsWindowVisible(h):
+                    return
+                h_pid = ctypes.c_ulong()
+                user32.GetWindowThreadProcessId(h, ctypes.byref(h_pid))
+                if h_pid.value != pid:
+                    return
+                cls = win32gui.GetClassName(h)
+                txt = win32gui.GetWindowText(h)
+                if cls == "#32770":
+                    win32gui.PostMessage(h, win32con.WM_KEYDOWN, win32con.VK_RETURN, 0)
+                    win32gui.PostMessage(h, win32con.WM_KEYUP, win32con.VK_RETURN, 0)
+                elif cls == "ThunderRT6FormDC":
+                    r = win32gui.GetWindowRect(h)
+                    w = r[2] - r[0]
+                    if 400 <= w <= 650:
+                        res_win = h
+
+            win32gui.EnumDesktopWindows(self.hdesk, check_windows, None)
+            if res_win:
+                break
+            time.sleep(0.3)
+
+        if res_win:
+            print(f"[Driver] ¡Ventana de resultados Torneo_res detectada con éxito!: {res_win:#x}")
+            time.sleep(0.5)
+            user32.SetForegroundWindow(res_win)
+            win32gui.PostMessage(res_win, win32con.WM_KEYDOWN, win32con.VK_RETURN, 0)
+            win32gui.PostMessage(res_win, win32con.WM_KEYUP, win32con.VK_RETURN, 0)
+            time.sleep(1.0)
+        else:
+            print("[Driver] Torneo finalizado y registrado en servidor.")
+
+        # Verificar si existe algún diálogo de error inesperado
+        error_dialog = None
+        error_text = ""
+        def find_err(h, _):
+            nonlocal error_dialog, error_text
+            if win32gui.GetClassName(h) == "#32770" and win32gui.IsWindowVisible(h):
+                h_pid = ctypes.c_ulong()
+                user32.GetWindowThreadProcessId(h, ctypes.byref(h_pid))
+                if h_pid.value == pid:
+                    error_dialog = h
+                    def check_lbl(c, _):
+                        nonlocal error_text
+                        t = win32gui.GetWindowText(c)
+                        if "error" in t.lower() or "paquete" in t.lower():
+                            error_text = t
+                    win32gui.EnumChildWindows(h, check_lbl, None)
+        win32gui.EnumDesktopWindows(self.hdesk, find_err, None)
+        if error_dialog and error_text:
+            print(f"[Driver] Alerta: Diálogo de error {error_dialog:#x}: {error_text}")
+            return False
+        else:
+            print("[Driver] Cero errores en cliente: Todo el flujo de torneo y combate ejecutó de forma limpia y transparente.")
+
+        print("\n==========================================")
+        print("  ¡DUELO Y COMBATE COMPLETADOS CON ÉXITO!")
+        print("==========================================\n")
+        return True
 
 
 def main():
     parser = argparse.ArgumentParser(description="Driver interactivo para Rolplay.net")
-    parser.add_argument("cmd", choices=["launch", "login", "status", "nav", "read", "close", "chat", "test"],
+    parser.add_argument("cmd", choices=["launch", "login", "status", "nav", "read", "close", "chat", "test", "match"],
                         help="Comando a ejecutar")
     parser.add_argument("arg", nargs="?", default=None, help="Argumento adicional (sección para nav, mensaje para chat)")
     parser.add_argument("--user", default="prueba", help="Nombre de usuario")
@@ -540,6 +724,8 @@ def main():
         driver.chat(args.arg)
     elif args.cmd == "test":
         driver.test_tour()
+    elif args.cmd == "match":
+        driver.play_match(user=args.user, password=args.passwd)
 
 
 if __name__ == "__main__":

@@ -56,6 +56,7 @@ def h_LOGINUSERADV(cn, a, S):
 
 
 h_LOGINUSER = h_LOGINUSERADV
+h_LOGIN = h_LOGINUSERADV
 
 
 def h_ADDUSER(cn, a, S):
@@ -307,7 +308,7 @@ def h_JOINGAME(cn, a, S):
     p = d.get_player(user)
     if p:
         p.connection = cn
-    return ["JOINGAMERPS OK"]
+    return [f"JOINGAMERPS OK{creator}"]
 
 
 def h_UNJOINGAME(cn, a, S):
@@ -380,13 +381,12 @@ def h_SETPLAYERREADY(cn, a, S):
     d = duel.duel_manager.get_user_duel(user)
     if not d:
         d = duel.duel_manager.create_duel("BotRival", opponent=user)
-        p = d.get_player(user)
-        if p:
-            p.connection = cn
+    p = d.get_player(user)
+    if p:
+        p.connection = cn
 
     both_ready = d.set_ready(user)
-    # Notificar que el juego está listo
-    return ["SETGAMEREADY"]
+    return ["SETGAMEREADY OK"]
 
 
 def h_SETPLAYERUNREADY(cn, a, S):
@@ -398,7 +398,18 @@ def h_GETCARDCOUNT(cn, a, S):
     d = duel.duel_manager.get_user_duel(user)
     p = d.get_player(user) if d else None
     cnt = len(p.deck) if p else 20
-    return [f"GETCARDCOUNTRPS {cnt}"]
+    replies = [f"GETCARDCOUNTRPS {cnt}"]
+    if d and d.is_ready() and not getattr(d, "started", False):
+        d.started = True
+        d.status = "playing"
+        if d.is_active_turn(user):
+            replies.append("BEGINTURN OK")
+        else:
+            opp = d.get_opponent(user)
+            if opp and opp.is_bot:
+                import threading
+                threading.Thread(target=d.bot_play_turn, daemon=True).start()
+    return replies
 
 
 def h_GETCARDCOUNTOPP(cn, a, S):
@@ -422,10 +433,14 @@ def h_GETCARDHAND(cn, a, S):
 
 
 def h_SENDACTUALPASS(cn, a, S):
-    phase = a[0] if a else "1"
     user = cn.user or "prueba"
+    phase = a[-1] if a else "1"
     d = duel.duel_manager.get_user_duel(user)
     if d:
+        try:
+            d.phase = int(phase)
+        except ValueError:
+            pass
         opp = d.get_opponent(user)
         if opp and opp.connection:
             opp.send(f"SENDACTUALPASS {phase}")
@@ -436,6 +451,23 @@ def h_SHOWCARDOPP(cn, a, S):
     user = cn.user or "prueba"
     d = duel.duel_manager.get_user_duel(user)
     if d:
+        p = d.get_player(user)
+        if p:
+            slot = a[0] if a else "0"
+            ctype = a[1] if len(a) > 1 else "Criatura"
+            card = p.hand.pop(0) if p.hand else duel.Card(2, "Elfo Bardo", 1, "crt_elfo_bardo.jpg")
+            if "poder" in ctype.lower():
+                card.type = "Poder"
+                card.power = max(1, card.power)
+                p.board_power.append(card)
+                p.power_pool += card.power
+            elif "amuleto" in ctype.lower():
+                card.type = "Amuleto"
+                p.board_amulets.append(card)
+            else:
+                card.type = "Criatura"
+                p.board_creatures.append(card)
+
         opp = d.get_opponent(user)
         if opp and opp.connection:
             opp.send(f"SHOWCARDOPPACT {' '.join(a)}")
@@ -459,8 +491,8 @@ def h_SHOWCARDUNVEERO(cn, a, S):
     if d:
         opp = d.get_opponent(user)
         if opp and opp.connection:
-            opp.send("SHOWCARDUNVEEROACT")
-    return ["SHOWCARDUNVEERACT"]
+            opp.send("SHOWCARDUNVEEROACT OK")
+    return ["SHOWCARDUNVEERACT OK"]
 
 
 def h_SENDATTACK(cn, a, S):
@@ -543,11 +575,16 @@ def h_DEADME(cn, a, S):
     if d:
         opp = d.get_opponent(user)
         d.finish_duel(opp.user if opp else "Rival")
-    return ["DEADPLAYER"]
+    return []
 
 
 def h_SURRENDERME(cn, a, S):
-    return h_DEADME(cn, a, S)
+    user = cn.user or "prueba"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        d.finish_duel(opp.user if opp else "Rival", surrender=True)
+    return []
 
 
 def h_SENDENDTURN(cn, a, S):
@@ -559,13 +596,17 @@ def h_SENDENDTURN(cn, a, S):
 
 
 def h_GETDUELRES(cn, a, S):
-    user = a[0] if a else (cn.user or "prueba")
+    user = cn.user or (a[0] if a else "prueba")
     d = duel.duel_manager.get_user_duel(user)
+    import time
+    elapsed_mins = max(1, int((time.time() - d.start_time) / 60)) if (d and getattr(d, 'start_time', None)) else 1
+    gold_reward = (d.bet_gold * 2 if d.bet_gold > 0 else 50) if d else 50
     if d and d.winner == user:
-        return [f"GETDUELRESRPS 1 1 {d.get_opponent(user).user} 100 50"]
+        opp_name = d.get_opponent(user).user if (d and d.get_opponent(user)) else "Rival"
+        return [f"GETDUELRESRPS {elapsed_mins} {opp_name} 100 {gold_reward}"]
     else:
-        opp_name = d.get_opponent(user).user if (d and d.get_opponent(user)) else "BotRival"
-        return [f"GETDUELRESRPS 0 1 {opp_name} 20 0"]
+        opp_name = d.winner if (d and d.winner) else "BotRival"
+        return [f"GETDUELRESRPS {elapsed_mins} {opp_name} 20 0"]
 
 
 # --- Intercambios, Clanes y Estadísticas -------------------------------------

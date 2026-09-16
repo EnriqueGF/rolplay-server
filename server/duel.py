@@ -7,12 +7,19 @@ Implementa la lgica completa del juego de cartas por turnos:
 - Clculo de combate: ataque vs defensa, dao sobrante a PV, muerte de criaturas
 - Resolucin del torneo con actualizacin de Oro, XP, Victorias/Derrotas en base de datos.
 """
+import os
 import random
+import sys
 import time
+
 try:
     import db
 except ImportError:
-    from server import db
+    try:
+        from server import db
+    except ImportError:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import db
 
 DEFAULT_BOT_CARDS = [
     {"id": 1, "name": "Poder", "level": 1, "image": "crt_poder.jpg"},
@@ -103,9 +110,11 @@ class DuelPlayer:
             for c in cards_db:
                 self.deck.append(Card(c["id"], c["name"], c["level"], c["image"]))
         
-        # Si la baraja est vaca o es un Bot, cargar cartas por defecto
-        if not self.deck:
+        # Si la baraja tiene pocas cartas o es un Bot, completar hasta 24
+        while len(self.deck) < 24:
             for c in DEFAULT_BOT_CARDS:
+                if len(self.deck) >= 24:
+                    break
                 self.deck.append(Card(c["id"], c["name"], c["level"], c["image"]))
 
         random.shuffle(self.deck)
@@ -133,13 +142,22 @@ class Duel:
         self.turn = 1  # 1 = creator, 2 = opponent
         self.phase = 1 # 1..6
         self.winner = None
+        self.started = False
 
         # Inicializar jugadores
-        is_bot = opponent_name.lower().startswith("bot") or not opponent_name
         opp_name = opponent_name if opponent_name else "BotRival"
-        self.p1 = DuelPlayer(creator_name, is_bot=False)
-        self.p2 = DuelPlayer(opp_name, is_bot=is_bot)
+        is_bot1 = creator_name.lower().startswith("bot") or creator_name.lower() == "jugador2"
+        is_bot2 = opp_name.lower().startswith("bot") or opp_name.lower() == "jugador2"
+        self.p1 = DuelPlayer(creator_name, is_bot=is_bot1)
+        self.p2 = DuelPlayer(opp_name, is_bot=is_bot2)
 
+        if self.p1.is_bot and not self.p2.is_bot:
+            self.turn = 2
+        else:
+            self.turn = 1
+
+        if self.p1.is_bot:
+            self.p1.ready = True
         if self.p2.is_bot:
             self.p2.ready = True
 
@@ -157,10 +175,16 @@ class Duel:
             return self.p1
         return None
 
+    def is_ready(self):
+        return self.p1.ready and self.p2.ready
+
     def set_ready(self, user):
         p = self.get_player(user)
         if p:
             p.ready = True
+        opp = self.get_opponent(user)
+        if opp and (opp.is_bot or opp.connection is None):
+            opp.ready = True
         if self.p1.ready and self.p2.ready:
             self.status = "playing"
             return True
@@ -183,7 +207,7 @@ class Duel:
         opp_p = self.p2 if self.turn == 1 else self.p1
 
         self.unveer_all(active_p)
-        active_p.send("BEGINTURN")
+        active_p.send("BEGINTURN OK")
         active_p.send(f"SENDACTUALPASS 1")
         opp_p.send(f"SENDACTUALPASS 1")
 
@@ -192,8 +216,8 @@ class Duel:
 
     def bot_play_turn(self):
         """Inteligencia artificial simple para que el Bot juegue su turno en duelos 1P."""
-        bot = self.p2
-        opp = self.p1
+        bot = self.p1 if self.p1.is_bot else self.p2
+        opp = self.p2 if self.p1.is_bot else self.p1
         self.unveer_all(bot)
 
         # 1. Robar carta
@@ -290,27 +314,30 @@ class Duel:
             if opp.pv <= 0:
                 self.finish_duel(winner_name=p.user)
 
-    def finish_duel(self, winner_name):
+    def finish_duel(self, winner_name, surrender=False):
         self.status = "finished"
         self.winner = winner_name
-        elapsed_mins = max(1, int((time.time() - self.start_time) / 60))
-        gold_reward = self.bet_gold * 2 if self.bet_gold > 0 else 50
-        xp_reward = 100
+        self.end_time = time.time()
 
         winner = self.get_player(winner_name)
         loser = self.get_opponent(winner_name)
 
+        elapsed_mins = max(1, int((time.time() - self.start_time) / 60))
+        gold_reward = self.bet_gold * 2 if self.bet_gold > 0 else 50
+        xp_reward = 100
+
         if winner:
             if not winner.is_bot:
                 db.update_user_stats(winner.user, add_gold=gold_reward, add_xp=xp_reward, won=True)
-            winner.send(f"DEADPLAYER")
-            winner.send(f"GETDUELRESRPS 1 {elapsed_mins} {loser.user if loser else 'Rival'} {xp_reward} {gold_reward}")
+            if winner.connection:
+                if surrender:
+                    winner.send("DEADPLAYER SURRENDER")
+                else:
+                    winner.send(f"DEADPLAYER OK {xp_reward}")
 
         if loser:
             if not loser.is_bot:
                 db.update_user_stats(loser.user, add_gold=0, add_xp=20, won=False)
-            loser.send(f"DEADPLAYER")
-            loser.send(f"GETDUELRESRPS 0 {elapsed_mins} {winner.user if winner else 'Rival'} 20 0")
 
 
 class DuelManager:
@@ -352,4 +379,5 @@ class DuelManager:
         return d
 
 
-duel_manager = DuelManager()
+if "duel_manager" not in globals():
+    duel_manager = DuelManager()
