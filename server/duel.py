@@ -223,15 +223,17 @@ class Duel:
         self.defending_creature = None
 
         opp_name = opponent_name if opponent_name else "BotRival"
-        is_bot1 = creator_name.lower().startswith("bot") or creator_name.lower() == "jugador2"
-        is_bot2 = opp_name.lower().startswith("bot") or opp_name.lower() == "jugador2"
+        is_bot1 = creator_name.lower().startswith("bot") or creator_name.lower() in ("jugador2", "botrival")
+        is_bot2 = opp_name.lower().startswith("bot") or opp_name.lower() in ("jugador2", "botrival")
 
         self.p1 = DuelPlayer(creator_name, is_bot=is_bot1)
         self.p2 = DuelPlayer(opp_name, is_bot=is_bot2)
 
-        # Si el creador es Bot pero el rival es humano, el humano inicia
+        # Regla de turno inicial: Si uno es Bot/offline y el otro es humano, el humano SIEMPRE empieza el turno
         if self.p1.is_bot and not self.p2.is_bot:
             self.turn = 2
+        elif self.p2.is_bot and not self.p1.is_bot:
+            self.turn = 1
         else:
             self.turn = 1
 
@@ -691,6 +693,20 @@ class DuelManager:
             d.p1.is_bot = False
         else:
             d.p2 = DuelPlayer(joiner_user, is_bot=False, connection=connection)
+
+        # Si alguno de los jugadores no tiene socket activo, actúa como bot para que la partida arranque
+        if d.p1.connection is None and d.p2.connection is not None:
+            d.p1.is_bot = True
+            d.p1.ready = True
+            d.turn = 2 # El jugador 2 (humano) inicia
+        elif d.p2.connection is None and d.p1.connection is not None:
+            d.p2.is_bot = True
+            d.p2.ready = True
+            d.turn = 1 # El jugador 1 (humano) inicia
+        elif d.p1.connection is None and d.p2.connection is None:
+            d.p1.is_bot = True
+            d.p1.ready = True
+            d.turn = 1
 
         self.user_to_duel[joiner_user.lower()] = d.id
         return d

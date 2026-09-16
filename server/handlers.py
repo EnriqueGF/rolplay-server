@@ -79,7 +79,8 @@ def h_GETMSGJOIN(cn, a, S):
 
 def h_GETUSERCHANNEL(cn, a, S):
     u = db.get_user(cn.user or "prueba")
-    ch = u["channel"] if u else CHANNELS[0]
+    ch = (u["channel"] if u and u["channel"] else CHANNELS[0])
+    cn.channel = ch
     return [f"GETUSERCHANNELRPS {ch}"]
 
 
@@ -169,6 +170,17 @@ def h_JOINCHANEL(cn, a, S):
     new_ch = " ".join(a[1:]).replace("=", " ") if len(a) > 1 else CHANNELS[0]
     cn.channel = new_ch
     return []
+
+
+def h_UNJOINCHANEL(cn, a, S):
+    return []
+
+
+def h_GETUSERLEVELCHANEL(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    u = db.get_user(user)
+    lvl = u["level"] if u else 1
+    return [f"GETUSERLEVELCHANELRPS {lvl}"]
 
 
 # --- Chat y mensajería -------------------------------------------------------
@@ -289,8 +301,10 @@ def h_GETINACTCARDLIST(cn, a, S):
 
 # --- Partidas y Retos --------------------------------------------------------
 def h_GETGAMELIST(cn, a, S):
-    cur_ch = getattr(cn, "channel", CHANNELS[0])
+    cur_ch = getattr(cn, "channel", None) or CHANNELS[0]
     games = db.get_active_games(cur_ch)
+    if not games and cur_ch != CHANNELS[0]:
+        games = db.get_active_games(CHANNELS[0])
     if not games:
         return ["GETGAMELISTRPS Sin partidas activas"]
     # Formato: nombre@id/creador/apuesta,
@@ -345,7 +359,16 @@ def h_GETDUELNUMCARDS(cn, a, S):
 def h_GETDUELBEGINGUS(cn, a, S):
     user = a[0] if a else (cn.user or "prueba")
     d = duel.duel_manager.get_user_duel(user)
-    start_turn = 1 if (d and d.turn == 1) else 2
+    if d:
+        p = d.get_player(user)
+        opp = d.get_opponent(user)
+        if opp and (opp.is_bot or opp.connection is None):
+            opp.is_bot = True
+            opp.ready = True
+            d.turn = 1 if p == d.p1 else 2
+        start_turn = d.turn
+    else:
+        start_turn = 1
     return [f"GETDUELBEGINGUSRPS {start_turn}"]
 
 
@@ -411,8 +434,35 @@ def h_MSGDUEL(cn, a, S):
     return []
 
 
+def h_MSGGAME(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    msg = " ".join(a[2:]) if len(a) > 2 else (a[1] if len(a) > 1 else "")
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send(f"MSGGAME {user}: {msg}")
+    return []
+
+
 def h_SETPINGGAME(cn, a, S):
-    return ["PINGRPS OK"]
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    replies = ["PINGRPS OK"]
+    if d:
+        p = d.get_player(user)
+        opp = d.get_opponent(user)
+        if opp and (opp.is_bot or opp.connection is None):
+            opp.is_bot = True
+            opp.ready = True
+            d.turn = 1 if p == d.p1 else 2
+
+        # Si el duelo ya está listo pero el cliente aún no ha iniciado o no tiene cartas en mano
+        if d.is_ready() and d.is_active_turn(user) and (not getattr(d, "started", False) or (p and len(p.hand) == 0)):
+            d.started = True
+            d.status = "playing"
+            replies.append("BEGINTURN OK")
+    return replies
 
 
 def h_SETPLAYERREADY(cn, a, S):
@@ -423,6 +473,12 @@ def h_SETPLAYERREADY(cn, a, S):
     p = d.get_player(user)
     if p:
         p.connection = cn
+
+    opp = d.get_opponent(user)
+    if opp and (opp.is_bot or opp.connection is None):
+        opp.is_bot = True
+        opp.ready = True
+        d.turn = 1 if p == d.p1 else 2
 
     both_ready = d.set_ready(user)
     return ["SETGAMEREADY OK"]
@@ -438,16 +494,21 @@ def h_GETCARDCOUNT(cn, a, S):
     p = d.get_player(user) if d else None
     cnt = len(p.deck) if p else 20
     replies = [f"GETCARDCOUNTRPS {cnt}"]
-    if d and d.is_ready() and not getattr(d, "started", False):
-        d.started = True
-        d.status = "playing"
-        if d.is_active_turn(user):
-            replies.append("BEGINTURN OK")
-        else:
-            opp = d.get_opponent(user)
-            if opp and opp.is_bot:
-                import threading
-                threading.Thread(target=d.bot_play_turn, daemon=True).start()
+    if d:
+        opp = d.get_opponent(user)
+        if opp and (opp.is_bot or opp.connection is None):
+            opp.is_bot = True
+            opp.ready = True
+            d.turn = 1 if p == d.p1 else 2
+
+        if d.is_ready() and d.is_active_turn(user):
+            if not getattr(d, "started", False) or (p and len(p.hand) == 0):
+                d.started = True
+                d.status = "playing"
+                replies.append("BEGINTURN OK")
+        elif d.is_ready() and not d.is_active_turn(user) and opp and opp.is_bot:
+            import threading
+            threading.Thread(target=d.bot_play_turn, daemon=True).start()
     return replies
 
 

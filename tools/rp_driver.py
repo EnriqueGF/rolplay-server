@@ -550,9 +550,19 @@ class RPDriver:
             time.sleep(0.2)
             r0 = win32gui.GetWindowRect(sub)
 
-            # Seleccionar primer reto del TreeView haciendo clic físico en el nodo
-            print(f"[Driver] Seleccionando primer reto en TreeView ({r0[0] + 60}, {r0[1] + 65})...")
-            self.real_click((r0[0] + 60, r0[1] + 65), topwin=sub)
+            # Seleccionar primer reto del TreeView
+            tree = None
+            def find_tree(c, _):
+                nonlocal tree
+                if "TreeView" in win32gui.GetClassName(c):
+                    tree = c
+            win32gui.EnumChildWindows(sub, find_tree, None)
+            if tree:
+                tr = win32gui.GetWindowRect(tree)
+                print(f"[Driver] Seleccionando primer reto en TreeView ({tr[0] + 40}, {tr[1] + 20})...")
+                self.real_click((tr[0] + 40, tr[1] + 20), topwin=sub)
+            else:
+                self.real_click((r0[0] + 60, r0[1] + 65), topwin=sub)
             time.sleep(0.6)
 
             # Botones de Partidas ordenados por X: [Crear, Unirse, Actualizar, Cerrar]
@@ -564,7 +574,11 @@ class RPDriver:
             win32gui.EnumChildWindows(sub, enum_sub_btns, None)
             sub_btns.sort()
 
-            if len(sub_btns) >= 2:
+            if len(sub_btns) >= 3:
+                btn_unirse = sub_btns[2][1]
+                print(f"[Driver] Clic en 'Unirse' ({btn_unirse:#x})...")
+                self.real_click(btn_unirse, topwin=sub)
+            elif len(sub_btns) >= 2:
                 btn_unirse = sub_btns[1][1]
                 print(f"[Driver] Clic en 'Unirse' ({btn_unirse:#x})...")
                 self.real_click(btn_unirse, topwin=sub)
