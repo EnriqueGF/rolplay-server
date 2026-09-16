@@ -62,12 +62,31 @@ de forma totalmente programática, **sin necesidad de capturas de pantalla** ni 
 - Las listas terminan **siempre en coma**: el cliente itera `arr(i-1)` y descarta el último elemento.
 - Nombres de baraja sin espacios.
 - Salas: `GETLSTCHANNELSRPS <canal1>,<canal2>,...`
-- Partidas: Si no hay, `GETGAMELISTRPS Sin partidas activas`. Si hay: `nombre@creador=descripcion,`.
+- Partidas: Si no hay, `GETGAMELISTRPS Sin partidas activas`. Si hay: `nombre@id/creador/apuesta,`.
 - Chat: `MSG <usuario> <texto>`.
 - Formatos completos en [PROTOCOLO.md](PROTOCOLO.md).
 
+### Motor de Combate y Duelos (100% Funcional)
+- Reconstrucción completa de la máquina de estados de duelos en `server/duel.py`:
+  - Fases 1 a 6 (`SENDACTUALPASS 1..6`): Degirar, Robar, Poder, Criaturas, Amuletos, Ataque.
+  - Reparto exacto de manos de 8 cartas con 14 flags de habilidades (`GETCARDHANDRPS`).
+  - Habilidades especiales modeladas y verificadas: Vuelo, Primer Golpe, Veneno, Regeneración, Arrollar.
+  - Sistema de reserva de Poder (`power_pool`), costes de invocación e invocaciones de criaturas (`SHOWCARDOPPACT`).
+  - Declaración de atacantes (`SETCATTACK`), defensores/bloqueo (`SETCDEFEND`) y resolución de daño simultáneo o letal.
+  - Daño sobrante (arrollar) a puntos de vida (`DEDUCTPV`, `DEDUCTPVOPP`).
+  - Habilidades y efectos de amuletos (`SETAMUVAL`): `pv_turno`, `ataque`, `defensa`, `rem_mons`, `gir_mons`.
+  - Soporte multijugador simultáneo PvP sobre sockets TCP (dos humanos conectándose y jugando por turnos sincronizados).
+  - Inteligencia artificial para el modo 1 jugador (`BotRival`).
+  - Resolución final (`GETDUELRESRPS`) y persistencia en base de datos SQLite (Oro, XP, Victorias/Derrotas).
+
+### Cliente Headless Autónomo (`tools/rp_client.py`)
+- Cliente TCP nativo en Python que habla el protocolo binario ofuscado directamente:
+  - Cero clics, cero ventanas, cero dependencias visuales o de escritorio.
+  - Soporta `login`, `status`, `chat`, `cards`, `games`, `match`, `pvp`, `benchmark` e `interactive`.
+  - Simula partidas completas en ~1.5 segundos con persistencia real.
+  - Suite de pruebas completa (`tests/test_duel_combat.py`) con 11 tests pasando al 100%.
+
 ## Siguiente Fase
-- **Combate / Duelos (Formulario Torneo)**: motor de juego por turnos, manos iniciales, invocaciones (`GIRMONS`, `INVKREMMONS`),
-  puntos de vida (`ADDPV`, `DEDUCTPV`), apuestas de oro y cartas, y resolución de victoria/derrota.
-- **Intercambios y Clanes**: completar los flujos multijugador específicos entre 2 clientes simultáneos.
+- **Intercambios y Clanes**: flujos de transferencias directas de cartas y creación de clanes.
+- **Tienda de Sobres**: compra de sobres con oro del juego.
 

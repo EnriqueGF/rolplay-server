@@ -77,9 +77,44 @@ hace que repita la petición indefinidamente.
 | `GETACTCARDLISTRPS` | Cartas | 0x7634e0 |
 | `GETLSTCHANNELSRPS` | Canales | 0x785ce0 |
 | `GETGAMELISTRPS` | Partidas | 0x7685d0 |
+| `GETCARDHANDRPS` | Torneo | 0x7365e0 |
+| `SHOWCARDOPPACT` | Torneo | 0x73e960 |
+| `SHOWCARDOPPSITACT` | Torneo | 0x73fa90 |
+| `SHOWCARDVEERACT` | Torneo | 0x741000 |
+| `SHOWCARDUNVEERACT` | Torneo | 0x742070 |
+| `DEDUCTPV` | Torneo | 0x73d4b0 |
+| `DEDUCTPVOPP` | Torneo | 0x742250 |
+| `KILLCARD` | Torneo | 0x73dcb0 |
+| `KILLCARDOPP` | Torneo | 0x7427b0 |
+| `DEADPLAYER` | Torneo | 0x73e5b0 |
+| `GETDUELRESRPS` | Torneo_res | 0x751a80 |
 
-Mapa completo de Principal y Cartas en `analysis/map_Principal.json` y `analysis/map_Cartas.json`.
+## Duelos y Torneo (Formulario Torneo.frm)
+| Cliente → servidor | Servidor → cliente | Descripción |
+|---|---|---|
+| `GETUSERLEVEL <user>` | `GETUSERLEVELRPS <lvl>` | Nivel del jugador |
+| `GETDUELNUMCARDS <user> <opp>` | `GETDUELNUMCARDSRPS 8` | Tamaño de mano inicial (8 cartas) |
+| `GETDUELBEGINGUS <user> <opp>` | `GETDUELBEGINGUSRPS <1|2>` | Jugador que empieza el turno |
+| `GETGAMEOPP <user> <opp>` | `GETGAMEOPPRPS <opp>` | Nombre del rival |
+| `GETGAMEOPPLEVEL <user> <opp>` | `GETGAMEOPPLEVELRPS <lvl>` | Nivel del rival |
+| `GETGAMEOPPPV <user> <opp>` | `GETGAMEOPPPVRPS <pv>` | Puntos de vida del rival (20) |
+| `GETGOLDBET <user> <opp>` | `GETGOLDBETRPS <oro>` | Oro apostado |
+| `SETPLAYERREADY <user> <opp>` | `SETGAMEREADY OK` | Marca preparado para iniciar |
+| `GETCARDCOUNT <user> <opp>` | `GETCARDCOUNTRPS <n>` [`BEGINTURN OK`] | Cartas restantes en mazo |
+| `GETCARDHAND <user>` | `GETCARDHANDRPS <slot> <id> <img.jpg> <lvl> <tipo> ...` | Robar carta formateada |
+| `SENDACTUALPASS <user> <opp> <1..6>` | `SENDACTUALPASS <fase>` | Paso de fase (1=Degirar, 2=Robar, 3=Poder, 4=Criatura, 5=Amuleto, 6=Ataque) |
+| `SHOWCARDOPP <slot> <tipo>` | `SHOWCARDOPPACT <slot> <tipo> ...` | Jugar Poder o Invocar Criatura |
+| `SHOWCARDVEER <slot>` | `SHOWCARDVEERACT <slot>` | Girar carta (atacar) |
+| `SHOWCARDUNVEERO` | `SHOWCARDUNVEERACT OK` | Degirar todas las cartas |
+| `SETCATTACK <slot>` | `SETCATTACKRPS OK` | Declarar criatura atacante |
+| `SETCDEFEND <def_slot> <att_slot>` | `SETCDEFENDRPS OK` | Declarar criatura defensora |
+| `SENDATTACK <slot>` | (resolución de combate) | Ejecutar ataque |
+| `INVKDEDUCTPV <dmg>` | `DEDUCTPVOPP <dmg>` (y `DEDUCTPV <dmg>` al rival) | Deducir vida |
+| `SETAMUVAL <user> <efecto> <val>` | `SETAMUVALRPS OK` | Aplicar efecto de amuleto (ataque, defensa, pv_turno, rem_mons, gir_mons) |
+| `SENDENDTURN` | `BEGINTURN OK` y `SENDACTUALPASS 1` al rival | Pasar turno |
+| `SURRENDERME <user> <opp>` | `DEADPLAYER SURRENDER` | Rendición |
+| `GETDUELRES <user> <opp>` | `GETDUELRESRPS <mins> <rival> <xp> <oro>` | Resultados y recompensas |
 
 ## Pendiente de verificar
-Duelos (motor de combate en Torneo), intercambios multijugador, clanes avanzados y tienda de sobres.
+Intercambios multijugador directos, clanes avanzados y tienda de sobres.
 

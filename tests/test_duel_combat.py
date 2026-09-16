@@ -30,6 +30,13 @@ class TestDuelCombat(unittest.TestCase):
             db.create_user("tester", "clave")
         duel.duel_manager.duels.clear()
         duel.duel_manager.user_to_duel.clear()
+        # Asegurar partida de prueba ID 1 con creador Jugador2
+        games = db.get_active_games("Principiantes 1(n1-n5)")
+        if not any(g["id"] == 1 for g in games):
+            with db._lock, db.get_conn() as conn:
+                c = conn.cursor()
+                c.execute("INSERT OR REPLACE INTO games (id, name, creator, channel, status, bet_gold) VALUES (1, 'Duelo_Epico', 'Jugador2', 'Principiantes 1(n1-n5)', 'waiting', 100)")
+                conn.commit()
 
     def test_deck_initialization(self):
         """Verifica que un DuelPlayer siempre tiene un mazo balanceado de 24+ cartas."""
@@ -224,6 +231,170 @@ class TestDuelCombat(unittest.TestCase):
         res_final = handlers.h_GETDUELRES(conn, ["tester"], {})
         self.assertTrue(res_final[0].startswith("GETDUELRESRPS 1"))
 
+    def test_creature_special_abilities(self):
+        """Verifica el cálculo de combate con habilidades especiales: Primer Golpe, Veneno, Vuelo, Regeneración, Arrollar."""
+        d = duel.Duel(995, "Jugador2", "tester")
+        d.set_ready("tester")
+
+        # 1. Primer Golpe: Atacante 3/1 con Primer Golpe vs Defensor 5/3 sin Primer Golpe
+        # El atacante debe matar al defensor y sobrevivir sin recibir daño.
+        cr_first_strike = duel.Card(20, "Arquero Elfo", 2, "", atk=3, df=1, cost=2,
+                                    abilities=[0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        cr_normal = duel.Card(21, "Orco Fuerte", 3, "", atk=5, df=3, cost=3,
+                              abilities=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        d.p2.board_creatures = [cr_first_strike]
+        d.p1.board_creatures = [cr_normal]
+        d.player_attack("tester", 0)
+        self.assertIn(cr_first_strike, d.p2.board_creatures) # Sobrevive
+        self.assertNotIn(cr_normal, d.p1.board_creatures) # Defensor muerto
+
+        # 2. Veneno: Atacante 1/1 con Veneno vs Defensor 1/10
+        # Debe matar al defensor gigante independientemente de su defensa.
+        cr_poison = duel.Card(22, "Víbora Negra", 1, "", atk=1, df=1, cost=1,
+                              abilities=[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        cr_giant = duel.Card(23, "Gigante de Roca", 5, "", atk=0, df=10, cost=5,
+                             abilities=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        d.p2.board_creatures = [cr_poison]
+        d.p1.board_creatures = [cr_giant]
+        d.player_attack("tester", 0)
+        self.assertNotIn(cr_giant, d.p1.board_creatures) # Defensor muere por veneno
+
+        # 3. Regeneración: Defensor con regeneración sobrevive a daño letal la primera vez
+        cr_attacker = duel.Card(24, "Guerrero", 2, "", atk=5, df=5, cost=2)
+        cr_regen = duel.Card(25, "Golem de Barro", 3, "", atk=1, df=2, cost=3,
+                             abilities=[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        d.p2.board_creatures = [cr_attacker]
+        d.p1.board_creatures = [cr_regen]
+        d.player_attack("tester", 0)
+        self.assertIn(cr_regen, d.p1.board_creatures) # No muere, se regenera
+        self.assertTrue(cr_regen.tapped)
+
+        # 4. Vuelo: Criatura sin vuelo no puede bloquear a una criatura con vuelo
+        cr_flyer = duel.Card(26, "Águila Gigante", 2, "", atk=3, df=2, cost=2,
+                             abilities=[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        cr_ground = duel.Card(27, "Enano", 1, "", atk=2, df=2, cost=1,
+                              abilities=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        d.p2.board_creatures = [cr_flyer]
+        d.p1.board_creatures = [cr_ground]
+        d.p1.pv = 20
+        d.player_attack("tester", 0)
+        # El enano no puede bloquear, el daño va directo a los PV del rival
+        self.assertEqual(d.p1.pv, 17)
+        self.assertIn(cr_ground, d.p1.board_creatures)
+
+    def test_power_pool_and_summoning(self):
+        """Verifica la acumulación de poder y el coste de invocación."""
+        d = duel.Duel(994, "Jugador2", "tester")
+        p = d.p2
+        self.assertEqual(p.power_pool, 0)
+
+        # Jugar carta de Poder 2
+        card_pwr = duel.Card(1, "Poder x 2", 2, "crt_poder2.jpg", ctype="Poder", pwr=2)
+        p.hand = [card_pwr]
+        d.play_power("tester", 0)
+        self.assertEqual(p.power_pool, 2)
+        self.assertEqual(len(p.board_power), 1)
+
+        # Invocar criatura de coste 2
+        card_cr = duel.Card(5, "Dophan", 2, "crt_dophan.jpg", ctype="Criatura", cost=2)
+        p.hand = [card_cr]
+        d.summon_creature("tester", 0)
+        self.assertEqual(p.power_pool, 0)
+        self.assertEqual(len(p.board_creatures), 1)
+
+        # En la siguiente fase 1 (Degirar), el poder se recarga
+        d.unveer_all(p)
+        self.assertEqual(p.power_pool, 2)
+
+    def test_amulet_effects(self):
+        """Verifica la ejecución de efectos de amuletos (#SETAMUVAL)."""
+        d = duel.Duel(993, "Jugador2", "tester")
+        d.p2.pv = 15
+        d.p1.board_creatures = [duel.Card(30, "Monstruo", 1, "", atk=2, df=2, cost=1)]
+        d.p2.board_creatures = [duel.Card(31, "MiCriatura", 1, "", atk=1, df=1, cost=1)]
+
+        # 1. Curar vida con pv_turno
+        d.apply_amulet_val("tester", "pv_turno", 5)
+        self.assertEqual(d.p2.pv, 20)
+
+        # 2. Buff de ataque
+        d.apply_amulet_val("tester", "ataque", 2)
+        self.assertEqual(d.p2.board_creatures[0].attack, 3)
+
+        # 3. Girar monstruo rival (gir_mons)
+        d.apply_amulet_val("tester", "gir_mons", 30)
+        self.assertTrue(d.p1.board_creatures[0].tapped)
+
+        # 4. Destruir monstruo rival (rem_mons)
+        d.apply_amulet_val("tester", "rem_mons", 30)
+        self.assertEqual(len(d.p1.board_creatures), 0)
+
+    def test_pvp_multiplayer_match(self):
+        """Simula una partida PvP completa entre dos clientes humanos simultáneos."""
+        conn1 = FakeConn("alice")
+        conn2 = FakeConn("bob")
+
+        # Asegurar usuarios en BD
+        for u in ("alice", "bob"):
+            if not db.get_user(u):
+                db.create_user(u, "clave")
+
+        # 1. Alice crea la partida
+        create_res = handlers.h_CREATEGAME(conn1, ["Partida_Alice", "", "50"], {})
+        self.assertTrue(create_res[0].startswith("CREATEGAMERPS OK"))
+        gid = int(create_res[0].split(" ")[2])
+
+        # 2. Bob se une a la partida
+        join_res = handlers.h_JOINGAME(conn2, ["bob", str(gid)], {})
+        self.assertEqual(join_res, ["JOINGAMERPS OKalice"])
+
+        # 3. Ambos marcan Preparado
+        handlers.h_SETPLAYERREADY(conn1, ["alice", "bob"], {})
+        handlers.h_SETPLAYERREADY(conn2, ["bob", "alice"], {})
+
+        d = duel.duel_manager.duels.get(gid)
+        self.assertIsNotNone(d)
+        self.assertTrue(d.is_ready())
+        self.assertFalse(d.p1.is_bot)
+        self.assertFalse(d.p2.is_bot)
+
+        # 4. Turno de Alice (turn = 1)
+        self.assertEqual(d.turn, 1)
+        self.assertTrue(d.is_active_turn("alice"))
+        self.assertFalse(d.is_active_turn("bob"))
+
+        # Alice baja poder y criatura
+        handlers.h_SENDACTUALPASS(conn1, ["alice", "bob", "3"], {})
+        handlers.h_SHOWCARDOPP(conn1, ["0", "Poder"], {})
+
+        handlers.h_SENDACTUALPASS(conn1, ["alice", "bob", "4"], {})
+        handlers.h_SHOWCARDOPP(conn1, ["1", "Criatura"], {})
+
+        # Alice ataca a Bob
+        handlers.h_SENDACTUALPASS(conn1, ["alice", "bob", "6"], {})
+        d.p2.pv = 5
+        handlers.h_SENDATTACK(conn1, ["0"], {})
+        # Bob recibe daño
+        self.assertLess(d.p2.pv, 5)
+
+        # Alice termina su turno
+        handlers.h_SENDENDTURN(conn1, ["alice"], {})
+
+        # 5. Turno de Bob (turn = 2)
+        self.assertEqual(d.turn, 2)
+        self.assertTrue(d.is_active_turn("bob"))
+        self.assertFalse(d.is_active_turn("alice"))
+
+        # Bob se rinde (SURRENDERME)
+        handlers.h_SURRENDERME(conn2, ["bob", "alice"], {})
+        self.assertEqual(d.status, "finished")
+        self.assertEqual(d.winner, "alice")
+
+        # Verificar recompensas en BD
+        u_alice = db.get_user("alice")
+        self.assertGreaterEqual(u_alice["wins"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()
+

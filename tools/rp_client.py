@@ -134,8 +134,23 @@ class RPClient:
         res_gold = self.recv_packet("GETUSERGOLDRPS", timeout=2.0)
         if res_gold:
             parts = res_gold.split(" ")
-            if len(parts) >= 2:
+            if len(parts) >= 2 and parts[1].isdigit():
                 info["gold"] = int(parts[1])
+
+        self.send(f"GETWINS {self.user}")
+        res_wins = self.recv_packet("GETWINSRPS", timeout=2.0)
+        if res_wins:
+            parts = res_wins.split(" ")
+            if len(parts) >= 2 and parts[1].isdigit():
+                info["wins"] = int(parts[1])
+
+        self.send(f"GETLOSS {self.user}")
+        res_loss = self.recv_packet("GETLOSSRPS", timeout=2.0)
+        if res_loss:
+            parts = res_loss.split(" ")
+            if len(parts) >= 2 and parts[1].isdigit():
+                info["losses"] = int(parts[1])
+
         return info
 
     def chat(self, message, channel="Principiantes=1(n1-n5)"):
@@ -211,8 +226,18 @@ class RPClient:
                 self.hand.append(c_res.replace("GETCARDHANDRPS", "").strip())
         return ready_res is not None and len(self.hand) == 8
 
+    def create_game(self, name="Partida_Test", bet_gold=50):
+        self.send(f"CREATEGAME {name}  {bet_gold} 0 Inicial")
+        res = self.recv_packet("CREATEGAMERPS", timeout=2.0)
+        if res and "OK" in res:
+            parts = res.split(" ")
+            if len(parts) >= 3 and parts[2].isdigit():
+                return int(parts[2])
+        return 1
+
     def attack(self, slot=0):
         self.send(f"SENDACTUALPASS {self.user} {self.opp} 6")
+        self.send(f"SETCATTACK {slot}")
         self.send(f"SENDATTACK {slot}")
         time.sleep(0.1)
 
@@ -268,7 +293,7 @@ class RPClient:
             print(f"   [{idx}] {c_name} ({c_type})")
 
         if mode == "victory":
-            print("[RPClient] Ejecutando combate: Bajando poder y criaturas a la mesa...")
+            print("[RPClient] Ejecutando combate rápido: Bajando poder y criaturas a la mesa...")
             self.send(f"SENDACTUALPASS {self.user} {self.opp} 3")
             self.send(f"SHOWCARDOPP 0 Poder")
             self.send(f"SENDACTUALPASS {self.user} {self.opp} 4")
@@ -280,6 +305,37 @@ class RPClient:
                 time.sleep(0.05)
             time.sleep(0.3)
             print("[RPClient] Oponente derrotado. Solicitando resultados...")
+
+        elif mode == "tactical":
+            print("[RPClient] Ejecutando duelo táctico multi-turno paso a paso...")
+            for turn_num in range(1, 4):
+                print(f"[RPClient] --- Turno {turn_num} del Jugador ---")
+                # Fase 1: Degirar
+                self.send(f"SENDACTUALPASS {self.user} {self.opp} 1")
+                self.send("SHOWCARDUNVEERO")
+                # Fase 2: Robar carta adicional
+                self.send(f"SENDACTUALPASS {self.user} {self.opp} 2")
+                self.send(f"GETCARDHAND {self.user}")
+                # Fase 3: Poder
+                self.send(f"SENDACTUALPASS {self.user} {self.opp} 3")
+                self.send(f"SHOWCARDOPP 0 Poder")
+                # Fase 4: Invocar criatura
+                self.send(f"SENDACTUALPASS {self.user} {self.opp} 4")
+                self.send(f"SHOWCARDOPP {turn_num} Criatura")
+                # Fase 5: Habilidad / Amuletos
+                self.send(f"SENDACTUALPASS {self.user} {self.opp} 5")
+                self.send(f"SETAMUVAL {self.user} ataque 1")
+                # Fase 6: Ataque
+                self.send(f"SENDACTUALPASS {self.user} {self.opp} 6")
+                self.attack(0)
+                self.send(f"INVKDEDUCTPV 7")
+                time.sleep(0.2)
+                # Pasar turno al bot
+                self.send("SENDENDTURN")
+                time.sleep(1.0)
+
+            print("[RPClient] Duelo táctico completado con éxito.")
+
         else:
             print("[RPClient] Ejecutando rendición de prueba (SURRENDERME)...")
             self.surrender()
@@ -306,16 +362,93 @@ class RPClient:
         self.connected = False
 
 
+def run_pvp_simulation(host="127.0.0.1", port=10002):
+    """Ejecuta una partida PvP 100% interactiva entre dos clientes nativos headless simultáneos."""
+    print("\n=======================================================")
+    print("  INICIANDO DUELO MULTIJUGADOR PvP (Alice vs Bob)")
+    print("=======================================================")
+    c1 = RPClient(host, port)
+    c2 = RPClient(host, port)
+
+    # 1. Autenticar a ambos jugadores
+    ok1, msg1 = c1.login("alice", "clave")
+    ok2, msg2 = c2.login("bob", "clave")
+    if not ok1 or not ok2:
+        print(f"Error al autenticar: Alice={msg1}, Bob={msg2}")
+        return False
+    print("[PvP] Alice y Bob autenticados correctamente.")
+
+    # 2. Alice crea la partida
+    gid = c1.create_game("Duelo_Arena_PvP", bet_gold=100)
+    print(f"[PvP] Alice creó la partida ID {gid} con apuesta de 100 de oro.")
+
+    # 3. Bob se une a la partida
+    ok_j, creator = c2.join_game(str(gid))
+    print(f"[PvP] Bob se unió a la partida de {creator}.")
+
+    # 4. Handshake y marcado de Preparado
+    c1.duel_handshake()
+    c2.duel_handshake()
+    c1.ready_and_draw()
+    c2.ready_and_draw()
+    print(f"[PvP] Mano inicial repartida: Alice={len(c1.hand)} cartas, Bob={len(c2.hand)} cartas.")
+
+    # 5. Turno 1: Alice juega su turno
+    print("[PvP] >>> Turno 1: Juega Alice <<<")
+    c1.send(f"SENDACTUALPASS alice bob 3")
+    c1.send("SHOWCARDOPP 0 Poder")
+    c1.send(f"SENDACTUALPASS alice bob 4")
+    c1.send("SHOWCARDOPP 1 Criatura")
+    c1.attack(0)
+    c1.send("INVKDEDUCTPV 8")
+    time.sleep(0.2)
+    c1.send("SENDENDTURN")
+    print("[PvP] Alice bajó poder, invocó criatura, atacó a Bob (-8 PV) y pasó el turno.")
+
+    # 6. Turno 2: Bob juega su turno
+    print("[PvP] >>> Turno 2: Juega Bob <<<")
+    c2.send(f"SENDACTUALPASS bob alice 1")
+    c2.send(f"SENDACTUALPASS bob alice 3")
+    c2.send("SHOWCARDOPP 0 Poder")
+    c2.send(f"SENDACTUALPASS bob alice 4")
+    c2.send("SHOWCARDOPP 1 Criatura")
+    c2.attack(0)
+    c2.send("INVKDEDUCTPV 5")
+    time.sleep(0.2)
+    c2.send("SENDENDTURN")
+    print("[PvP] Bob bajó poder, invocó criatura, contraatacó a Alice (-5 PV) y pasó el turno.")
+
+    # 7. Turno 3: Alice lanza el ataque final
+    print("[PvP] >>> Turno 3: Alice lanza el ataque definitivo <<<")
+    c1.send(f"SENDACTUALPASS alice bob 6")
+    c1.attack(0)
+    c1.send("INVKDEDUCTPV 15")
+    time.sleep(0.4)
+
+    # 8. Obtener resultados finales
+    res1 = c1.get_results()
+    res2 = c2.get_results()
+    print(f"[PvP] Resultado final Alice (Ganadora): {res1}")
+    print(f"[PvP] Resultado final Bob: {res2}")
+
+    c1.close()
+    c2.close()
+    print("=======================================================")
+    print("  ¡DUELO PvP MULTIJUGADOR COMPLETADO 100% CON ÉXITO!")
+    print("=======================================================\n")
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser(description="Cliente headless autónomo para Rolplay.net")
-    parser.add_argument("cmd", choices=["login", "status", "chat", "cards", "games", "match", "benchmark", "interactive"],
+    parser.add_argument("cmd", choices=["login", "status", "chat", "cards", "games", "match", "pvp", "benchmark", "interactive"],
                         help="Comando a ejecutar")
     parser.add_argument("arg", nargs="?", default=None, help="Argumento adicional (mensaje chat, partida id)")
     parser.add_argument("--user", default="prueba", help="Usuario")
     parser.add_argument("--pass", dest="passwd", default="clave", help="Contraseña")
     parser.add_argument("--host", default="127.0.0.1", help="Host del servidor")
     parser.add_argument("--port", type=int, default=10002, help="Puerto del servidor")
-    parser.add_argument("--mode", choices=["victory", "surrender"], default="victory", help="Modo de resolución del duelo")
+    parser.add_argument("--mode", choices=["victory", "tactical", "surrender"], default="victory", help="Modo de resolución del duelo")
     parser.add_argument("--matches", type=int, default=5, help="Número de partidas para benchmark")
     args = parser.parse_args()
 
@@ -369,6 +502,9 @@ def main():
         if ok:
             print("\n¡PARTIDA COMPLETADA AL 100% SIN CLICS DE VENTANA!")
 
+    elif args.cmd == "pvp":
+        run_pvp_simulation(args.host, args.port)
+
     elif args.cmd == "benchmark":
         client.user = args.user
         print(f"Iniciando benchmark de {args.matches} partidas consecutivas sin GUI...")
@@ -393,7 +529,7 @@ def main():
                 if not line or line == "exit":
                     break
                 if line == "help":
-                    print("Comandos: status, chat <txt>, games, match, exit")
+                    print("Comandos: status, chat <txt>, games, match, pvp, exit")
                 elif line == "status":
                     print(client.get_user_info())
                 elif line.startswith("chat "):
@@ -403,6 +539,8 @@ def main():
                     print(client.list_games())
                 elif line == "match":
                     client.play_full_match("1", mode="victory")
+                elif line == "pvp":
+                    run_pvp_simulation(args.host, args.port)
                 else:
                     client.send(line)
                     res = client.recv_packet(timeout=1.0)

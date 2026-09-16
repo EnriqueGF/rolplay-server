@@ -109,6 +109,18 @@ def h_GETUSERXP(cn, a, S):
     return [f"GETUSERXPRPS {u['xp'] if u else 0}"]
 
 
+def h_GETWINS(cn, a, S):
+    u = db.get_user(a[0] if a else cn.user)
+    wins = u["wins"] if u and "wins" in u else 0
+    return [f"GETWINSRPS {wins}"]
+
+
+def h_GETLOSS(cn, a, S):
+    u = db.get_user(a[0] if a else cn.user)
+    losses = u["losses"] if u and "losses" in u else 0
+    return [f"GETLOSSRPS {losses}"]
+
+
 def h_GETUSERAWAY(cn, a, S):
     return ["GETUSERAWAYRPS 0"]
 
@@ -289,8 +301,9 @@ def h_GETGAMELIST(cn, a, S):
 def h_CREATEGAME(cn, a, S):
     name = a[0] if a else f"Partida_{cn.user}"
     cur_ch = getattr(cn, "channel", CHANNELS[0])
-    gid = db.create_game(name, cn.user or "anon", cur_ch)
-    d = duel.duel_manager.create_duel(cn.user or "anon", opponent="BotRival", channel=cur_ch)
+    bet_gold = int(a[2]) if len(a) > 2 and a[2].isdigit() else 0
+    gid = db.create_game(name, cn.user or "anon", cur_ch, bet_gold=bet_gold)
+    d = duel.duel_manager.create_duel(cn.user or "anon", opponent="BotRival", channel=cur_ch, bet_gold=bet_gold, duel_id=gid)
     d.p1.connection = cn
     return [f"CREATEGAMERPS OK {gid}"]
 
@@ -298,17 +311,15 @@ def h_CREATEGAME(cn, a, S):
 def h_JOINGAME(cn, a, S):
     user = a[0] if a else (cn.user or "prueba")
     gid = int(a[1]) if len(a) > 1 and a[1].isdigit() else 1
-    games = db.get_active_games(getattr(cn, "channel", CHANNELS[0]))
+    cur_ch = getattr(cn, "channel", CHANNELS[0])
+    games = db.get_active_games(cur_ch)
     target_game = next((g for g in games if g["id"] == gid), None)
     creator = target_game["creator"] if target_game else "BotRival"
+    bet_gold = target_game["bet_gold"] if target_game else 0
 
-    d = duel.duel_manager.get_user_duel(user)
-    if not d:
-        d = duel.duel_manager.create_duel(creator, opponent=user, channel=getattr(cn, "channel", CHANNELS[0]))
-    p = d.get_player(user)
-    if p:
-        p.connection = cn
-    return [f"JOINGAMERPS OK{creator}"]
+    d = duel.duel_manager.join_duel(gid, user, creator_name=creator, bet_gold=bet_gold, channel=cur_ch, connection=cn)
+    creator_name = d.p1.user if d and d.p1 else creator
+    return [f"JOINGAMERPS OK{creator_name}"]
 
 
 def h_UNJOINGAME(cn, a, S):
@@ -360,6 +371,34 @@ def h_GETGAMEOPPPV(cn, a, S):
     opp = d.get_opponent(user) if d else None
     pv = opp.pv if opp else 20
     return [f"GETGAMEOPPPVRPS {pv}"]
+
+
+def h_GETGOLDBET(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    bet = d.bet_gold if d else 0
+    return [f"GETGOLDBETRPS {bet}"]
+
+
+def h_GETDUELNUMCARDBET(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    bet = getattr(d, 'bet_cards', 0) if d else 0
+    return [f"GETDUELNUMCARDBETRPS {bet}"]
+
+
+def h_GETGOLDBETOPP(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    bet = d.bet_gold if d else 0
+    return [f"GETGOLDBETOPPRPS {bet}"]
+
+
+def h_GETDUELNUMCARDBETOPP(cn, a, S):
+    user = a[0] if a else (cn.user or "prueba")
+    d = duel.duel_manager.get_user_duel(user)
+    bet = getattr(d, 'bet_cards', 0) if d else 0
+    return [f"GETDUELNUMCARDBETOPPRPS {bet}"]
 
 
 def h_MSGDUEL(cn, a, S):
@@ -451,26 +490,14 @@ def h_SHOWCARDOPP(cn, a, S):
     user = cn.user or "prueba"
     d = duel.duel_manager.get_user_duel(user)
     if d:
-        p = d.get_player(user)
-        if p:
-            slot = a[0] if a else "0"
-            ctype = a[1] if len(a) > 1 else "Criatura"
-            card = p.hand.pop(0) if p.hand else duel.Card(2, "Elfo Bardo", 1, "crt_elfo_bardo.jpg")
-            if "poder" in ctype.lower():
-                card.type = "Poder"
-                card.power = max(1, card.power)
-                p.board_power.append(card)
-                p.power_pool += card.power
-            elif "amuleto" in ctype.lower():
-                card.type = "Amuleto"
-                p.board_amulets.append(card)
-            else:
-                card.type = "Criatura"
-                p.board_creatures.append(card)
-
-        opp = d.get_opponent(user)
-        if opp and opp.connection:
-            opp.send(f"SHOWCARDOPPACT {' '.join(a)}")
+        slot = a[0] if a else "0"
+        ctype = a[1] if len(a) > 1 else "Criatura"
+        if "poder" in ctype.lower():
+            d.play_power(user, slot)
+        elif "amuleto" in ctype.lower():
+            d.apply_amulet_val(user, "amuleto", 1)
+        else:
+            d.summon_creature(user, slot)
     return []
 
 
@@ -509,10 +536,21 @@ def h_SENDATTACKRPS(cn, a, S):
 
 
 def h_SETCATTACK(cn, a, S):
+    user = cn.user or "prueba"
+    slot = a[0] if a else "0"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        d.declare_attacker(user, slot)
     return ["SETCATTACKRPS OK"]
 
 
 def h_SETCDEFEND(cn, a, S):
+    user = cn.user or "prueba"
+    def_slot = a[0] if a else "0"
+    att_slot = a[1] if len(a) > 1 else None
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        d.declare_defender(user, def_slot, att_slot)
     return ["SETCDEFENDRPS OK"]
 
 
@@ -537,31 +575,70 @@ def h_INVKDEDUCTPV(cn, a, S):
 
 
 def h_INVKADDPV(cn, a, S):
+    user = cn.user or "prueba"
     heal = int(a[0]) if a and a[0].isdigit() else 1
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        p = d.get_player(user)
+        opp = d.get_opponent(user)
+        if p:
+            p.pv += heal
+        if opp and opp.connection:
+            opp.send(f"ADDPVOPP {heal}")
     return [f"ADDPV {heal}"]
 
 
 def h_INVKGIRMONSOK(cn, a, S):
+    user = cn.user or "prueba"
     slot = a[0] if a else "0"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send(f"GIRMONS {slot}")
     return [f"GIRMONS {slot}"]
 
 
 def h_INVKREMPOD(cn, a, S):
+    user = cn.user or "prueba"
     slot = a[0] if a else "0"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send(f"REMPOD {slot}")
     return [f"REMPOD {slot}"]
 
 
 def h_INVKREMMONS(cn, a, S):
+    user = cn.user or "prueba"
     slot = a[0] if a else "0"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send(f"REMMONS {slot}")
     return [f"REMMONS {slot}"]
 
 
 def h_INVKREMAMU(cn, a, S):
+    user = cn.user or "prueba"
     slot = a[0] if a else "0"
+    d = duel.duel_manager.get_user_duel(user)
+    if d:
+        opp = d.get_opponent(user)
+        if opp and opp.connection:
+            opp.send(f"REMAMU {slot}")
     return [f"REMAMU {slot}"]
 
 
 def h_SETAMUVAL(cn, a, S):
+    user = cn.user or "prueba"
+    d = duel.duel_manager.get_user_duel(user)
+    if d and a:
+        effect = a[0]
+        val = a[1] if len(a) > 1 else 1
+        d.apply_amulet_val(user, effect, val)
     return ["SETAMUVALRPS OK"]
 
 
