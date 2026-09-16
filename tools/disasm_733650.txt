@@ -1,0 +1,438 @@
+0x733650: push     ebp                                 
+0x733651: mov      ebp, esp                            
+0x733653: sub      esp, 0xc                            
+0x733656: push     0x4042f6                            
+0x73365b: mov      eax, dword ptr fs:[0]               
+0x733661: push     eax                                 
+0x733662: mov      dword ptr fs:[0], esp               
+0x733669: sub      esp, 0x70                           
+0x73366c: push     ebx                                 
+0x73366d: push     esi                                 
+0x73366e: push     edi                                 
+0x73366f: mov      dword ptr [ebp - 0xc], esp          
+0x733672: mov      dword ptr [ebp - 8], 0x401b00       
+0x733679: xor      edi, edi                            
+0x73367b: mov      dword ptr [ebp - 4], edi            
+0x73367e: mov      esi, dword ptr [ebp + 8]            
+0x733681: push     esi                                 
+0x733682: mov      eax, dword ptr [esi]                
+0x733684: call     dword ptr [eax + 4]                 
+0x733687: sub      esp, 0x10                           
+0x73368a: mov      ecx, 0xb                            
+0x73368f: mov      edx, esp                            
+0x733691: mov      dword ptr [ebp - 0x5c], edi         
+0x733694: mov      dword ptr [ebp - 0x5c], ecx         
+0x733697: or       eax, 0xffffffff                     
+0x73369a: mov      dword ptr [edx], ecx                
+0x73369c: mov      ecx, dword ptr [ebp - 0x58]         
+0x73369f: mov      dword ptr [ebp - 0x54], eax         
+0x7336a2: push     0x80010007                          
+0x7336a7: mov      dword ptr [edx + 4], ecx            
+0x7336aa: mov      ecx, dword ptr [esi]                
+0x7336ac: push     esi                                 
+0x7336ad: mov      dword ptr [ebp - 0x18], edi         
+0x7336b0: mov      dword ptr [edx + 8], eax            
+0x7336b3: mov      eax, dword ptr [ebp - 0x50]         
+0x7336b6: mov      dword ptr [ebp - 0x1c], edi         
+0x7336b9: mov      dword ptr [ebp - 0x2c], edi         
+0x7336bc: mov      dword ptr [ebp - 0x3c], edi         
+0x7336bf: mov      dword ptr [ebp - 0x4c], edi         
+0x7336c2: mov      dword ptr [ebp - 0x6c], edi         
+0x7336c5: mov      dword ptr [edx + 0xc], eax          
+0x7336c8: call     dword ptr [ecx + 0x424]             
+0x7336ce: mov      edi, dword ptr [0x4010a0]             ; __vbaObjSet
+0x7336d4: lea      edx, [ebp - 0x1c]                   
+0x7336d7: push     eax                                 
+0x7336d8: push     edx                                 
+0x7336d9: call     edi                                 
+0x7336db: push     eax                                 
+0x7336dc: call     dword ptr [0x40127c]                  ; __vbaLateIdSt
+0x7336e2: mov      ebx, dword ptr [0x40129c]             ; __vbaFreeObj
+0x7336e8: lea      ecx, [ebp - 0x1c]                   
+0x7336eb: call     ebx                                 
+0x7336ed: sub      esp, 0x10                           
+0x7336f0: mov      ecx, 0xb                            
+0x7336f5: mov      edx, esp                            
+0x7336f7: mov      dword ptr [ebp - 0x5c], ecx         
+0x7336fa: xor      eax, eax                            
+0x7336fc: push     0x80010007                          
+0x733701: mov      dword ptr [edx], ecx                
+0x733703: mov      ecx, dword ptr [ebp - 0x58]         
+0x733706: mov      dword ptr [ebp - 0x54], eax         
+0x733709: push     esi                                 
+0x73370a: mov      dword ptr [edx + 4], ecx            
+0x73370d: mov      ecx, dword ptr [esi]                
+0x73370f: mov      dword ptr [edx + 8], eax            
+0x733712: mov      eax, dword ptr [ebp - 0x50]         
+0x733715: mov      dword ptr [edx + 0xc], eax          
+0x733718: call     dword ptr [ecx + 0x420]             
+0x73371e: lea      edx, [ebp - 0x1c]                   
+0x733721: push     eax                                 
+0x733722: push     edx                                 
+0x733723: call     edi                                 
+0x733725: push     eax                                 
+0x733726: call     dword ptr [0x40127c]                  ; __vbaLateIdSt
+0x73372c: lea      ecx, [ebp - 0x1c]                   
+0x73372f: call     ebx                                 
+0x733731: mov      eax, dword ptr [esi]                
+0x733733: push     esi                                 
+0x733734: call     dword ptr [eax + 0x354]             
+0x73373a: lea      ecx, [ebp - 0x1c]                   
+0x73373d: push     eax                                 
+0x73373e: push     ecx                                 
+0x73373f: call     edi                                 
+0x733741: mov      edx, dword ptr [eax]                
+0x733743: push     0                                   
+0x733745: push     eax                                 
+0x733746: mov      dword ptr [ebp - 0x70], eax         
+0x733749: call     dword ptr [edx + 0x9c]              
+0x73374f: fnclex                                       
+0x733751: test     eax, eax                            
+0x733753: jge      0x73376a                            
+0x733755: mov      ecx, dword ptr [ebp - 0x70]         
+0x733758: push     0x9c                                
+0x73375d: push     0x4314c8                            
+0x733762: push     ecx                                 
+0x733763: push     eax                                 
+0x733764: call     dword ptr [0x40106c]                  ; __vbaHresultCheckObj
+0x73376a: lea      ecx, [ebp - 0x1c]                   
+0x73376d: call     ebx                                 
+0x73376f: sub      esp, 0x10                           
+0x733772: mov      ecx, 0xb                            
+0x733777: mov      edx, esp                            
+0x733779: mov      dword ptr [ebp - 0x5c], ecx         
+0x73377c: or       eax, 0xffffffff                     
+0x73377f: push     0x80010007                          
+0x733784: mov      dword ptr [edx], ecx                
+0x733786: mov      ecx, dword ptr [ebp - 0x58]         
+0x733789: mov      dword ptr [ebp - 0x54], eax         
+0x73378c: push     esi                                 
+0x73378d: mov      dword ptr [edx + 4], ecx            
+0x733790: mov      ecx, dword ptr [esi]                
+0x733792: mov      dword ptr [edx + 8], eax            
+0x733795: mov      eax, dword ptr [ebp - 0x50]         
+0x733798: mov      dword ptr [edx + 0xc], eax          
+0x73379b: call     dword ptr [ecx + 0x41c]             
+0x7337a1: lea      edx, [ebp - 0x1c]                   
+0x7337a4: push     eax                                 
+0x7337a5: push     edx                                 
+0x7337a6: call     edi                                 
+0x7337a8: push     eax                                 
+0x7337a9: call     dword ptr [0x40127c]                  ; __vbaLateIdSt
+0x7337af: lea      ecx, [ebp - 0x1c]                   
+0x7337b2: call     ebx                                 
+0x7337b4: mov      eax, dword ptr [esi]                
+0x7337b6: push     esi                                 
+0x7337b7: call     dword ptr [eax + 0x3b4]             
+0x7337bd: lea      ecx, [ebp - 0x1c]                   
+0x7337c0: push     eax                                 
+0x7337c1: push     ecx                                 
+0x7337c2: call     edi                                 
+0x7337c4: mov      edx, dword ptr [eax]                
+0x7337c6: push     -1                                  
+0x7337c8: push     eax                                 
+0x7337c9: mov      dword ptr [ebp - 0x70], eax         
+0x7337cc: call     dword ptr [edx + 0x8c]              
+0x7337d2: test     eax, eax                            
+0x7337d4: fnclex                                       
+0x7337d6: jge      0x7337ed                            
+0x7337d8: mov      ecx, dword ptr [ebp - 0x70]         
+0x7337db: push     0x8c                                
+0x7337e0: push     0x4347d0                            
+0x7337e5: push     ecx                                 
+0x7337e6: push     eax                                 
+0x7337e7: call     dword ptr [0x40106c]                  ; __vbaHresultCheckObj
+0x7337ed: lea      ecx, [ebp - 0x1c]                   
+0x7337f0: call     ebx                                 
+0x7337f2: mov      edx, dword ptr [esi]                
+0x7337f4: push     esi                                 
+0x7337f5: call     dword ptr [edx + 0x3b0]             
+0x7337fb: push     eax                                 
+0x7337fc: lea      eax, [ebp - 0x1c]                   
+0x7337ff: push     eax                                 
+0x733800: call     edi                                 
+0x733802: mov      ecx, dword ptr [eax]                
+0x733804: push     -1                                  
+0x733806: push     eax                                 
+0x733807: mov      dword ptr [ebp - 0x70], eax         
+0x73380a: call     dword ptr [ecx + 0x9c]              
+0x733810: test     eax, eax                            
+0x733812: fnclex                                       
+0x733814: jge      0x73382b                            
+0x733816: mov      edx, dword ptr [ebp - 0x70]         
+0x733819: push     0x9c                                
+0x73381e: push     0x432460                            
+0x733823: push     edx                                 
+0x733824: push     eax                                 
+0x733825: call     dword ptr [0x40106c]                  ; __vbaHresultCheckObj
+0x73382b: lea      ecx, [ebp - 0x1c]                   
+0x73382e: call     ebx                                 
+0x733830: mov      eax, dword ptr [esi]                
+0x733832: push     esi                                 
+0x733833: call     dword ptr [eax + 0x358]             
+0x733839: lea      ecx, [ebp - 0x1c]                   
+0x73383c: push     eax                                 
+0x73383d: push     ecx                                 
+0x73383e: call     edi                                 
+0x733840: mov      ebx, dword ptr [eax]                
+0x733842: push     0                                   
+0x733844: mov      dword ptr [ebp - 0x70], eax         
+0x733847: call     dword ptr [0x401008]                  ; __vbaStrI2
+0x73384d: mov      edx, eax                            
+0x73384f: lea      ecx, [ebp - 0x18]                   
+0x733852: call     dword ptr [0x401268]                  ; __vbaStrMove
+0x733858: mov      edx, ebx                            
+0x73385a: mov      ebx, dword ptr [ebp - 0x70]         
+0x73385d: push     eax                                 
+0x73385e: push     ebx                                 
+0x73385f: call     dword ptr [edx + 0x54]              
+0x733862: test     eax, eax                            
+0x733864: fnclex                                       
+0x733866: jge      0x733877                            
+0x733868: push     0x54                                
+0x73386a: push     0x432460                            
+0x73386f: push     ebx                                 
+0x733870: push     eax                                 
+0x733871: call     dword ptr [0x40106c]                  ; __vbaHresultCheckObj
+0x733877: lea      ecx, [ebp - 0x18]                   
+0x73387a: call     dword ptr [0x4012a0]                  ; __vbaFreeStr
+0x733880: lea      ecx, [ebp - 0x1c]                   
+0x733883: call     dword ptr [0x40129c]                  ; __vbaFreeObj
+0x733889: mov      eax, dword ptr [esi]                
+0x73388b: push     esi                                 
+0x73388c: call     dword ptr [eax + 0x35c]             
+0x733892: lea      ecx, [ebp - 0x1c]                   
+0x733895: push     eax                                 
+0x733896: push     ecx                                 
+0x733897: call     edi                                 
+0x733899: mov      ebx, dword ptr [eax]                
+0x73389b: push     0                                   
+0x73389d: mov      dword ptr [ebp - 0x70], eax         
+0x7338a0: call     dword ptr [0x401008]                  ; __vbaStrI2
+0x7338a6: mov      edx, eax                            
+0x7338a8: lea      ecx, [ebp - 0x18]                   
+0x7338ab: call     dword ptr [0x401268]                  ; __vbaStrMove
+0x7338b1: mov      edx, ebx                            
+0x7338b3: mov      ebx, dword ptr [ebp - 0x70]         
+0x7338b6: push     eax                                 
+0x7338b7: push     ebx                                 
+0x7338b8: call     dword ptr [edx + 0x54]              
+0x7338bb: test     eax, eax                            
+0x7338bd: fnclex                                       
+0x7338bf: jge      0x7338d0                            
+0x7338c1: push     0x54                                
+0x7338c3: push     0x432460                            
+0x7338c8: push     ebx                                 
+0x7338c9: push     eax                                 
+0x7338ca: call     dword ptr [0x40106c]                  ; __vbaHresultCheckObj
+0x7338d0: lea      ecx, [ebp - 0x18]                   
+0x7338d3: call     dword ptr [0x4012a0]                  ; __vbaFreeStr
+0x7338d9: lea      ecx, [ebp - 0x1c]                   
+0x7338dc: call     dword ptr [0x40129c]                  ; __vbaFreeObj
+0x7338e2: mov      eax, dword ptr [esi]                
+0x7338e4: push     esi                                 
+0x7338e5: call     dword ptr [eax + 0x360]             
+0x7338eb: lea      ecx, [ebp - 0x1c]                   
+0x7338ee: push     eax                                 
+0x7338ef: push     ecx                                 
+0x7338f0: call     edi                                 
+0x7338f2: mov      ebx, eax                            
+0x7338f4: push     0                                   
+0x7338f6: push     ebx                                 
+0x7338f7: mov      edx, dword ptr [ebx]                
+0x7338f9: call     dword ptr [edx + 0x9c]              
+0x7338ff: test     eax, eax                            
+0x733901: fnclex                                       
+0x733903: jge      0x733917                            
+0x733905: push     0x9c                                
+0x73390a: push     0x432460                            
+0x73390f: push     ebx                                 
+0x733910: push     eax                                 
+0x733911: call     dword ptr [0x40106c]                  ; __vbaHresultCheckObj
+0x733917: mov      ebx, dword ptr [0x40129c]             ; __vbaFreeObj
+0x73391d: lea      ecx, [ebp - 0x1c]                   
+0x733920: call     ebx                                 
+0x733922: mov      eax, dword ptr [esi]                
+0x733924: push     esi                                 
+0x733925: mov      word ptr [esi + 0x36], 0xffff       
+0x73392b: call     dword ptr [eax + 0x334]             
+0x733931: lea      ecx, [ebp - 0x1c]                   
+0x733934: push     eax                                 
+0x733935: push     ecx                                 
+0x733936: call     edi                                 
+0x733938: mov      esi, eax                            
+0x73393a: push     0                                   
+0x73393c: push     esi                                 
+0x73393d: mov      edx, dword ptr [esi]                
+0x73393f: call     dword ptr [edx + 0x9c]              
+0x733945: test     eax, eax                            
+0x733947: fnclex                                       
+0x733949: jge      0x73395d                            
+0x73394b: push     0x9c                                
+0x733950: push     0x433118                            
+0x733955: push     esi                                 
+0x733956: push     eax                                 
+0x733957: call     dword ptr [0x40106c]                  ; __vbaHresultCheckObj
+0x73395d: lea      ecx, [ebp - 0x1c]                   
+0x733960: call     ebx                                 
+0x733962: mov      eax, dword ptr [0x7cf688]           
+0x733967: test     eax, eax                            
+0x733969: jne      0x73397b                            
+0x73396b: push     0x7cf688                            
+0x733970: push     0x4320bc                            
+0x733975: call     dword ptr [0x4011d0]                  ; __vbaNew2
+0x73397b: mov      eax, dword ptr [0x7ce29c]           
+0x733980: mov      esi, dword ptr [0x7cf688]           
+0x733986: test     eax, eax                            
+0x733988: jne      0x73399a                            
+0x73398a: push     0x7ce29c                            
+0x73398f: push     0x41fd8c                            
+0x733994: call     dword ptr [0x4011d0]                  ; __vbaNew2
+0x73399a: mov      eax, dword ptr [0x7ce29c]           
+0x73399f: mov      edi, dword ptr [esi]                
+0x7339a1: lea      ecx, [ebp - 0x1c]                   
+0x7339a4: push     eax                                 
+0x7339a5: push     ecx                                 
+0x7339a6: call     dword ptr [0x4010b4]                  ; __vbaObjSetAddref
+0x7339ac: push     eax                                 
+0x7339ad: push     esi                                 
+0x7339ae: call     dword ptr [edi + 0x10]              
+0x7339b1: test     eax, eax                            
+0x7339b3: fnclex                                       
+0x7339b5: jge      0x7339c6                            
+0x7339b7: push     0x10                                
+0x7339b9: push     0x4320ac                            
+0x7339be: push     esi                                 
+0x7339bf: push     eax                                 
+0x7339c0: call     dword ptr [0x40106c]                  ; __vbaHresultCheckObj
+0x7339c6: lea      ecx, [ebp - 0x1c]                   
+0x7339c9: call     ebx                                 
+0x7339cb: mov      esi, dword ptr [0x4011b0]             ; __vbaVarCat
+0x7339d1: mov      eax, 8                              
+0x7339d6: lea      edx, [ebp - 0x5c]                   
+0x7339d9: mov      dword ptr [ebp - 0x5c], eax         
+0x7339dc: mov      dword ptr [ebp - 0x6c], eax         
+0x7339df: push     edx                                 
+0x7339e0: lea      eax, [ebp - 0x2c]                   
+0x7339e3: push     0x7ce100                            
+0x7339e8: push     eax                                 
+0x7339e9: mov      dword ptr [ebp - 0x54], 0x434d48      ; L"#GETCARDCOUNTOPP "
+0x7339f0: mov      dword ptr [ebp - 0x64], 0x4314fc      ; L" "
+0x7339f7: call     esi                                 
+0x7339f9: lea      ecx, [ebp - 0x6c]                   
+0x7339fc: push     eax                                 
+0x7339fd: lea      edx, [ebp - 0x3c]                   
+0x733a00: push     ecx                                 
+0x733a01: push     edx                                 
+0x733a02: call     esi                                 
+0x733a04: push     eax                                 
+0x733a05: lea      eax, [ebp - 0x4c]                   
+0x733a08: push     0x7ce0c0                            
+0x733a0d: push     eax                                 
+0x733a0e: call     esi                                 
+0x733a10: mov      edi, dword ptr [0x40102c]             ; __vbaStrVarMove
+0x733a16: push     eax                                 
+0x733a17: call     edi                                 
+0x733a19: mov      edx, eax                            
+0x733a1b: lea      ecx, [ebp - 0x18]                   
+0x733a1e: call     dword ptr [0x401268]                  ; __vbaStrMove
+0x733a24: lea      ecx, [ebp - 0x18]                   
+0x733a27: push     ecx                                 
+0x733a28: call     0x723240                            
+0x733a2d: lea      ecx, [ebp - 0x18]                   
+0x733a30: call     dword ptr [0x4012a0]                  ; __vbaFreeStr
+0x733a36: mov      ebx, dword ptr [0x401034]             ; __vbaFreeVarList
+0x733a3c: lea      edx, [ebp - 0x4c]                   
+0x733a3f: lea      eax, [ebp - 0x3c]                   
+0x733a42: push     edx                                 
+0x733a43: lea      ecx, [ebp - 0x2c]                   
+0x733a46: push     eax                                 
+0x733a47: push     ecx                                 
+0x733a48: push     3                                   
+0x733a4a: call     ebx                                 
+0x733a4c: add      esp, 0x10                           
+0x733a4f: mov      eax, 8                              
+0x733a54: lea      edx, [ebp - 0x5c]                   
+0x733a57: mov      dword ptr [ebp - 0x5c], eax         
+0x733a5a: mov      dword ptr [ebp - 0x6c], eax         
+0x733a5d: push     edx                                 
+0x733a5e: lea      eax, [ebp - 0x2c]                   
+0x733a61: push     0x7ce100                            
+0x733a66: push     eax                                 
+0x733a67: mov      dword ptr [ebp - 0x54], 0x434d70      ; L"#GETCARDCOUNT "
+0x733a6e: mov      dword ptr [ebp - 0x64], 0x4314fc      ; L" "
+0x733a75: call     esi                                 
+0x733a77: lea      ecx, [ebp - 0x6c]                   
+0x733a7a: push     eax                                 
+0x733a7b: lea      edx, [ebp - 0x3c]                   
+0x733a7e: push     ecx                                 
+0x733a7f: push     edx                                 
+0x733a80: call     esi                                 
+0x733a82: push     eax                                 
+0x733a83: lea      eax, [ebp - 0x4c]                   
+0x733a86: push     0x7ce0c0                            
+0x733a8b: push     eax                                 
+0x733a8c: call     esi                                 
+0x733a8e: push     eax                                 
+0x733a8f: call     edi                                 
+0x733a91: mov      edx, eax                            
+0x733a93: lea      ecx, [ebp - 0x18]                   
+0x733a96: call     dword ptr [0x401268]                  ; __vbaStrMove
+0x733a9c: lea      ecx, [ebp - 0x18]                   
+0x733a9f: push     ecx                                 
+0x733aa0: call     0x723240                            
+0x733aa5: lea      ecx, [ebp - 0x18]                   
+0x733aa8: call     dword ptr [0x4012a0]                  ; __vbaFreeStr
+0x733aae: lea      edx, [ebp - 0x4c]                   
+0x733ab1: lea      eax, [ebp - 0x3c]                   
+0x733ab4: push     edx                                 
+0x733ab5: lea      ecx, [ebp - 0x2c]                   
+0x733ab8: push     eax                                 
+0x733ab9: push     ecx                                 
+0x733aba: push     3                                   
+0x733abc: call     ebx                                 
+0x733abe: add      esp, 0x10                           
+0x733ac1: push     0x733af3                            
+0x733ac6: jmp      0x733af2                            
+0x733ac8: lea      ecx, [ebp - 0x18]                   
+0x733acb: call     dword ptr [0x4012a0]                  ; __vbaFreeStr
+0x733ad1: lea      ecx, [ebp - 0x1c]                   
+0x733ad4: call     dword ptr [0x40129c]                  ; __vbaFreeObj
+0x733ada: lea      edx, [ebp - 0x4c]                   
+0x733add: lea      eax, [ebp - 0x3c]                   
+0x733ae0: push     edx                                 
+0x733ae1: lea      ecx, [ebp - 0x2c]                   
+0x733ae4: push     eax                                 
+0x733ae5: push     ecx                                 
+0x733ae6: push     3                                   
+0x733ae8: call     dword ptr [0x401034]                  ; __vbaFreeVarList
+0x733aee: add      esp, 0x10                           
+0x733af1: ret                                          
+0x733af2: ret                                          
+0x733af3: mov      eax, dword ptr [ebp + 8]            
+0x733af6: push     eax                                 
+0x733af7: mov      edx, dword ptr [eax]                
+0x733af9: call     dword ptr [edx + 8]                 
+0x733afc: mov      eax, dword ptr [ebp - 4]            
+0x733aff: mov      ecx, dword ptr [ebp - 0x14]         
+0x733b02: pop      edi                                 
+0x733b03: pop      esi                                 
+0x733b04: mov      dword ptr fs:[0], ecx               
+0x733b0b: pop      ebx                                 
+0x733b0c: mov      esp, ebp                            
+0x733b0e: pop      ebp                                 
+0x733b0f: ret      8                                   
+0x733b12: nop                                          
+0x733b13: nop                                          
+0x733b14: nop                                          
+0x733b15: nop                                          
+0x733b16: nop                                          
+0x733b17: nop                                          
+0x733b18: nop                                          
+0x733b19: nop                                          
+0x733b1a: nop                                          
+0x733b1b: nop                                          
+0x733b1c: nop                                          
+0x733b1d: nop                                          
+0x733b1e: nop                                          
+0x733b1f: nop                                          

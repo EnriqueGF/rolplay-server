@@ -1,0 +1,352 @@
+SETGAMEREADY             @ 0x7ca349: mov      dword ptr [ebp - 0x1dc], 0x43b1c8   ; L"SETGAMEREADY"
+SETGAMEREADY             @ 0x7ca353: mov      dword ptr [ebp - 0x1e4], 0x8008 
+SETGAMEREADY             @ 0x7ca35d: lea      edx, [ebp - 0x44]              
+SETGAMEREADY             @ 0x7ca360: push     edx                            
+SETGAMEREADY             @ 0x7ca361: lea      eax, [ebp - 0x1e4]             
+SETGAMEREADY             @ 0x7ca367: push     eax                            
+SETGAMEREADY             @ 0x7ca368: call     esi                            
+SETGAMEREADY             @ 0x7ca36a: mov      word ptr [ebp - 0x208], ax     
+SETGAMEREADY             @ 0x7ca371: lea      ecx, [ebp - 0x44]              
+SETGAMEREADY             @ 0x7ca374: call     ebx                            
+SETGAMEREADY             @ 0x7ca376: cmp      word ptr [ebp - 0x208], 0      
+SETGAMEREADY             @ 0x7ca37e: je       0x7ca3e1                       
+SETGAMEREADY             @ 0x7ca380: cmp      word ptr [0x7ce01e], -1        
+SETGAMEREADY             @ 0x7ca388: jne      0x7cce8f                       
+SETGAMEREADY             @ 0x7ca38e: mov      eax, dword ptr [0x7ce260]      
+SETGAMEREADY             @ 0x7ca393: test     eax, eax                       
+SETGAMEREADY             @ 0x7ca395: jne      0x7ca3a7                       
+SETGAMEREADY             @ 0x7ca397: push     0x7ce260                       
+SETGAMEREADY             @ 0x7ca39c: push     0x42c540                       
+SETGAMEREADY             @ 0x7ca3a1: call     dword ptr [0x4011d0]             ; __vbaNew2
+SETGAMEREADY             @ 0x7ca3a7: mov      esi, dword ptr [0x7ce260]      
+SETGAMEREADY             @ 0x7ca3ad: mov      ecx, dword ptr [ebp + 0xc]     
+SETGAMEREADY             @ 0x7ca3b0: mov      edx, dword ptr [ecx]           
+SETGAMEREADY             @ 0x7ca3b2: lea      ecx, [ebp - 0x34]              
+SETGAMEREADY             @ 0x7ca3b5: call     dword ptr [0x4011ec]             ; __vbaStrCopy
+SETGAMEREADY             @ 0x7ca3bb: mov      edx, dword ptr [esi]           
+SETGAMEREADY             @ 0x7ca3bd: lea      eax, [ebp - 0x34]              
+SETGAMEREADY             @ 0x7ca3c0: push     eax                            
+SETGAMEREADY             @ 0x7ca3c1: push     esi                            
+SETGAMEREADY             @ 0x7ca3c2: call     dword ptr [edx + 0x700]        
+SETGAMEREADY             @ 0x7ca3c8: fnclex                                  
+SETGAMEREADY             @ 0x7ca3ca: test     eax, eax                       
+SETGAMEREADY             @ 0x7ca3cc: jge      0x7c8273                       
+SETGAMEREADY             @ 0x7ca3d2: push     0x700                          
+SETGAMEREADY             @ 0x7ca3d7: push     0x433d8c                       
+SETGAMEREADY             @ 0x7ca3dc: jmp      0x7c826b                       
+SETGAMEREADY             @ 0x7ca3e1: lea      ecx, [ebp - 0x20]              
+SETGAMEREADY             @ 0x7ca3e4: mov      dword ptr [ebp - 0x1cc], ecx   
+SETGAMEREADY             @ 0x7ca3ea: mov      dword ptr [ebp - 0x1d4], 0x4008 
+SETGAMEREADY             @ 0x7ca3f4: lea      edx, [ebp - 0x1d4]             
+SETGAMEREADY             @ 0x7ca3fa: push     edx                            
+SETGAMEREADY             @ 0x7ca3fb: lea      eax, [ebp - 0x44]              
+SETGAMEREADY             @ 0x7ca3fe: push     eax                            
+SETGAMEREADY             @ 0x7ca3ff: call     edi                            
+SETGAMEINFORM            @ 0x7ca401: mov      dword ptr [ebp - 0x1dc], 0x43b1e8   ; L"SETGAMEINFORM"
+SETGAMEINFORM            @ 0x7ca40b: mov      dword ptr [ebp - 0x1e4], 0x8008 
+SETGAMEINFORM            @ 0x7ca415: lea      ecx, [ebp - 0x44]              
+SETGAMEINFORM            @ 0x7ca418: push     ecx                            
+SETGAMEINFORM            @ 0x7ca419: lea      edx, [ebp - 0x1e4]             
+SETGAMEINFORM            @ 0x7ca41f: push     edx                            
+SETGAMEINFORM            @ 0x7ca420: call     esi                            
+SETGAMEINFORM            @ 0x7ca422: mov      word ptr [ebp - 0x208], ax     
+SETGAMEINFORM            @ 0x7ca429: lea      ecx, [ebp - 0x44]              
+SETGAMEINFORM            @ 0x7ca42c: call     ebx                            
+SETGAMEINFORM            @ 0x7ca42e: cmp      word ptr [ebp - 0x208], 0      
+SETGAMEINFORM            @ 0x7ca436: je       0x7ca499                       
+SETGAMEINFORM            @ 0x7ca438: cmp      word ptr [0x7ce01e], -1        
+SETGAMEINFORM            @ 0x7ca440: jne      0x7cce8f                       
+SETGAMEINFORM            @ 0x7ca446: mov      eax, dword ptr [0x7ce260]      
+SETGAMEINFORM            @ 0x7ca44b: test     eax, eax                       
+SETGAMEINFORM            @ 0x7ca44d: jne      0x7ca45f                       
+SETGAMEINFORM            @ 0x7ca44f: push     0x7ce260                       
+SETGAMEINFORM            @ 0x7ca454: push     0x42c540                       
+SETGAMEINFORM            @ 0x7ca459: call     dword ptr [0x4011d0]             ; __vbaNew2
+SETGAMEINFORM            @ 0x7ca45f: mov      esi, dword ptr [0x7ce260]      
+SETGAMEINFORM            @ 0x7ca465: mov      eax, dword ptr [ebp + 0xc]     
+SETGAMEINFORM            @ 0x7ca468: mov      edx, dword ptr [eax]           
+SETGAMEINFORM            @ 0x7ca46a: lea      ecx, [ebp - 0x34]              
+SETGAMEINFORM            @ 0x7ca46d: call     dword ptr [0x4011ec]             ; __vbaStrCopy
+SETGAMEINFORM            @ 0x7ca473: mov      ecx, dword ptr [esi]           
+SETGAMEINFORM            @ 0x7ca475: lea      edx, [ebp - 0x34]              
+SETGAMEINFORM            @ 0x7ca478: push     edx                            
+SETGAMEINFORM            @ 0x7ca479: push     esi                            
+SETGAMEINFORM            @ 0x7ca47a: call     dword ptr [ecx + 0x704]        
+SETGAMEINFORM            @ 0x7ca480: fnclex                                  
+SETGAMEINFORM            @ 0x7ca482: test     eax, eax                       
+SETGAMEINFORM            @ 0x7ca484: jge      0x7c8273                       
+SETGAMEINFORM            @ 0x7ca48a: push     0x704                          
+SETGAMEINFORM            @ 0x7ca48f: push     0x433d8c                       
+SETGAMEINFORM            @ 0x7ca494: jmp      0x7c826b                       
+SETGAMEINFORM            @ 0x7ca499: lea      eax, [ebp - 0x20]              
+SETGAMEINFORM            @ 0x7ca49c: mov      dword ptr [ebp - 0x1cc], eax   
+SETGAMEINFORM            @ 0x7ca4a2: mov      dword ptr [ebp - 0x1d4], 0x4008 
+SETGAMEINFORM            @ 0x7ca4ac: lea      ecx, [ebp - 0x1d4]             
+SETGAMEINFORM            @ 0x7ca4b2: push     ecx                            
+SETGAMEINFORM            @ 0x7ca4b3: lea      edx, [ebp - 0x44]              
+SETGAMEINFORM            @ 0x7ca4b6: push     edx                            
+SETGAMEINFORM            @ 0x7ca4b7: call     edi                            
+BEGINTURN                @ 0x7ca799: mov      dword ptr [ebp - 0x1dc], 0x43b29c   ; L"BEGINTURN"
+BEGINTURN                @ 0x7ca7a3: mov      dword ptr [ebp - 0x1e4], 0x8008 
+BEGINTURN                @ 0x7ca7ad: lea      edx, [ebp - 0x44]              
+BEGINTURN                @ 0x7ca7b0: push     edx                            
+BEGINTURN                @ 0x7ca7b1: lea      eax, [ebp - 0x1e4]             
+BEGINTURN                @ 0x7ca7b7: push     eax                            
+BEGINTURN                @ 0x7ca7b8: call     esi                            
+BEGINTURN                @ 0x7ca7ba: mov      word ptr [ebp - 0x208], ax     
+BEGINTURN                @ 0x7ca7c1: lea      ecx, [ebp - 0x44]              
+BEGINTURN                @ 0x7ca7c4: call     ebx                            
+BEGINTURN                @ 0x7ca7c6: cmp      word ptr [ebp - 0x208], 0      
+BEGINTURN                @ 0x7ca7ce: je       0x7ca831                       
+BEGINTURN                @ 0x7ca7d0: cmp      word ptr [0x7ce01e], -1        
+BEGINTURN                @ 0x7ca7d8: jne      0x7cce8f                       
+BEGINTURN                @ 0x7ca7de: mov      eax, dword ptr [0x7ce260]      
+BEGINTURN                @ 0x7ca7e3: test     eax, eax                       
+BEGINTURN                @ 0x7ca7e5: jne      0x7ca7f7                       
+BEGINTURN                @ 0x7ca7e7: push     0x7ce260                       
+BEGINTURN                @ 0x7ca7ec: push     0x42c540                       
+BEGINTURN                @ 0x7ca7f1: call     dword ptr [0x4011d0]             ; __vbaNew2
+BEGINTURN                @ 0x7ca7f7: mov      esi, dword ptr [0x7ce260]      
+BEGINTURN                @ 0x7ca7fd: mov      ecx, dword ptr [ebp + 0xc]     
+BEGINTURN                @ 0x7ca800: mov      edx, dword ptr [ecx]           
+BEGINTURN                @ 0x7ca802: lea      ecx, [ebp - 0x34]              
+BEGINTURN                @ 0x7ca805: call     dword ptr [0x4011ec]             ; __vbaStrCopy
+BEGINTURN                @ 0x7ca80b: mov      edx, dword ptr [esi]           
+BEGINTURN                @ 0x7ca80d: lea      eax, [ebp - 0x34]              
+BEGINTURN                @ 0x7ca810: push     eax                            
+BEGINTURN                @ 0x7ca811: push     esi                            
+BEGINTURN                @ 0x7ca812: call     dword ptr [edx + 0x718]        
+BEGINTURN                @ 0x7ca818: fnclex                                  
+BEGINTURN                @ 0x7ca81a: test     eax, eax                       
+BEGINTURN                @ 0x7ca81c: jge      0x7c8273                       
+BEGINTURN                @ 0x7ca822: push     0x718                          
+BEGINTURN                @ 0x7ca827: push     0x433d8c                       
+BEGINTURN                @ 0x7ca82c: jmp      0x7c826b                       
+BEGINTURN                @ 0x7ca831: lea      ecx, [ebp - 0x20]              
+BEGINTURN                @ 0x7ca834: mov      dword ptr [ebp - 0x1cc], ecx   
+BEGINTURN                @ 0x7ca83a: mov      dword ptr [ebp - 0x1d4], 0x4008 
+BEGINTURN                @ 0x7ca844: lea      edx, [ebp - 0x1d4]             
+BEGINTURN                @ 0x7ca84a: push     edx                            
+BEGINTURN                @ 0x7ca84b: lea      eax, [ebp - 0x44]              
+BEGINTURN                @ 0x7ca84e: push     eax                            
+BEGINTURN                @ 0x7ca84f: call     edi                            
+GETGOLDBETRPS            @ 0x7cc5c9: mov      dword ptr [ebp - 0x1dc], 0x438228   ; L"GETGOLDBETRPS"
+GETGOLDBETRPS            @ 0x7cc5d3: mov      dword ptr [ebp - 0x1e4], 0x8008 
+GETGOLDBETRPS            @ 0x7cc5dd: lea      edx, [ebp - 0x44]              
+GETGOLDBETRPS            @ 0x7cc5e0: push     edx                            
+GETGOLDBETRPS            @ 0x7cc5e1: lea      eax, [ebp - 0x1e4]             
+GETGOLDBETRPS            @ 0x7cc5e7: push     eax                            
+GETGOLDBETRPS            @ 0x7cc5e8: call     esi                            
+GETGOLDBETRPS            @ 0x7cc5ea: mov      word ptr [ebp - 0x208], ax     
+GETGOLDBETRPS            @ 0x7cc5f1: lea      ecx, [ebp - 0x44]              
+GETGOLDBETRPS            @ 0x7cc5f4: call     ebx                            
+GETGOLDBETRPS            @ 0x7cc5f6: cmp      word ptr [ebp - 0x208], 0      
+GETGOLDBETRPS            @ 0x7cc5fe: je       0x7cc661                       
+GETGOLDBETRPS            @ 0x7cc600: cmp      word ptr [0x7ce01e], -1        
+GETGOLDBETRPS            @ 0x7cc608: jne      0x7cce8f                       
+GETGOLDBETRPS            @ 0x7cc60e: mov      eax, dword ptr [0x7ce260]      
+GETGOLDBETRPS            @ 0x7cc613: test     eax, eax                       
+GETGOLDBETRPS            @ 0x7cc615: jne      0x7cc627                       
+GETGOLDBETRPS            @ 0x7cc617: push     0x7ce260                       
+GETGOLDBETRPS            @ 0x7cc61c: push     0x42c540                       
+GETGOLDBETRPS            @ 0x7cc621: call     dword ptr [0x4011d0]             ; __vbaNew2
+GETGOLDBETRPS            @ 0x7cc627: mov      esi, dword ptr [0x7ce260]      
+GETGOLDBETRPS            @ 0x7cc62d: mov      ecx, dword ptr [ebp + 0xc]     
+GETGOLDBETRPS            @ 0x7cc630: mov      edx, dword ptr [ecx]           
+GETGOLDBETRPS            @ 0x7cc632: lea      ecx, [ebp - 0x34]              
+GETGOLDBETRPS            @ 0x7cc635: call     dword ptr [0x4011ec]             ; __vbaStrCopy
+GETGOLDBETRPS            @ 0x7cc63b: mov      edx, dword ptr [esi]           
+GETGOLDBETRPS            @ 0x7cc63d: lea      eax, [ebp - 0x34]              
+GETGOLDBETRPS            @ 0x7cc640: push     eax                            
+GETGOLDBETRPS            @ 0x7cc641: push     esi                            
+GETGOLDBETRPS            @ 0x7cc642: call     dword ptr [edx + 0x820]        
+GETGOLDBETRPS            @ 0x7cc648: fnclex                                  
+GETGOLDBETRPS            @ 0x7cc64a: test     eax, eax                       
+GETGOLDBETRPS            @ 0x7cc64c: jge      0x7c8273                       
+GETGOLDBETRPS            @ 0x7cc652: push     0x820                          
+GETGOLDBETRPS            @ 0x7cc657: push     0x433d8c                       
+GETGOLDBETRPS            @ 0x7cc65c: jmp      0x7c826b                       
+GETGOLDBETRPS            @ 0x7cc661: lea      ecx, [ebp - 0x20]              
+GETGOLDBETRPS            @ 0x7cc664: mov      dword ptr [ebp - 0x1cc], ecx   
+GETGOLDBETRPS            @ 0x7cc66a: mov      dword ptr [ebp - 0x1d4], 0x4008 
+GETGOLDBETRPS            @ 0x7cc674: lea      edx, [ebp - 0x1d4]             
+GETGOLDBETRPS            @ 0x7cc67a: push     edx                            
+GETGOLDBETRPS            @ 0x7cc67b: lea      eax, [ebp - 0x44]              
+GETGOLDBETRPS            @ 0x7cc67e: push     eax                            
+GETGOLDBETRPS            @ 0x7cc67f: call     edi                            
+GETGOLDBETOPPRPS         @ 0x7cc681: mov      dword ptr [ebp - 0x1dc], 0x43b6d4   ; L"GETGOLDBETOPPRPS"
+GETGOLDBETOPPRPS         @ 0x7cc68b: mov      dword ptr [ebp - 0x1e4], 0x8008 
+GETGOLDBETOPPRPS         @ 0x7cc695: lea      ecx, [ebp - 0x44]              
+GETGOLDBETOPPRPS         @ 0x7cc698: push     ecx                            
+GETGOLDBETOPPRPS         @ 0x7cc699: lea      edx, [ebp - 0x1e4]             
+GETGOLDBETOPPRPS         @ 0x7cc69f: push     edx                            
+GETGOLDBETOPPRPS         @ 0x7cc6a0: call     esi                            
+GETGOLDBETOPPRPS         @ 0x7cc6a2: mov      word ptr [ebp - 0x208], ax     
+GETGOLDBETOPPRPS         @ 0x7cc6a9: lea      ecx, [ebp - 0x44]              
+GETGOLDBETOPPRPS         @ 0x7cc6ac: call     ebx                            
+GETGOLDBETOPPRPS         @ 0x7cc6ae: cmp      word ptr [ebp - 0x208], 0      
+GETGOLDBETOPPRPS         @ 0x7cc6b6: je       0x7cc719                       
+GETGOLDBETOPPRPS         @ 0x7cc6b8: cmp      word ptr [0x7ce01e], -1        
+GETGOLDBETOPPRPS         @ 0x7cc6c0: jne      0x7cce8f                       
+GETGOLDBETOPPRPS         @ 0x7cc6c6: mov      eax, dword ptr [0x7ce260]      
+GETGOLDBETOPPRPS         @ 0x7cc6cb: test     eax, eax                       
+GETGOLDBETOPPRPS         @ 0x7cc6cd: jne      0x7cc6df                       
+GETGOLDBETOPPRPS         @ 0x7cc6cf: push     0x7ce260                       
+GETGOLDBETOPPRPS         @ 0x7cc6d4: push     0x42c540                       
+GETGOLDBETOPPRPS         @ 0x7cc6d9: call     dword ptr [0x4011d0]             ; __vbaNew2
+GETGOLDBETOPPRPS         @ 0x7cc6df: mov      esi, dword ptr [0x7ce260]      
+GETGOLDBETOPPRPS         @ 0x7cc6e5: mov      eax, dword ptr [ebp + 0xc]     
+GETGOLDBETOPPRPS         @ 0x7cc6e8: mov      edx, dword ptr [eax]           
+GETGOLDBETOPPRPS         @ 0x7cc6ea: lea      ecx, [ebp - 0x34]              
+GETGOLDBETOPPRPS         @ 0x7cc6ed: call     dword ptr [0x4011ec]             ; __vbaStrCopy
+GETGOLDBETOPPRPS         @ 0x7cc6f3: mov      ecx, dword ptr [esi]           
+GETGOLDBETOPPRPS         @ 0x7cc6f5: lea      edx, [ebp - 0x34]              
+GETGOLDBETOPPRPS         @ 0x7cc6f8: push     edx                            
+GETGOLDBETOPPRPS         @ 0x7cc6f9: push     esi                            
+GETGOLDBETOPPRPS         @ 0x7cc6fa: call     dword ptr [ecx + 0x828]        
+GETGOLDBETOPPRPS         @ 0x7cc700: fnclex                                  
+GETGOLDBETOPPRPS         @ 0x7cc702: test     eax, eax                       
+GETGOLDBETOPPRPS         @ 0x7cc704: jge      0x7c8273                       
+GETGOLDBETOPPRPS         @ 0x7cc70a: push     0x828                          
+GETGOLDBETOPPRPS         @ 0x7cc70f: push     0x433d8c                       
+GETGOLDBETOPPRPS         @ 0x7cc714: jmp      0x7c826b                       
+GETGOLDBETOPPRPS         @ 0x7cc719: lea      eax, [ebp - 0x20]              
+GETGOLDBETOPPRPS         @ 0x7cc71c: mov      dword ptr [ebp - 0x1cc], eax   
+GETGOLDBETOPPRPS         @ 0x7cc722: mov      dword ptr [ebp - 0x1d4], 0x4008 
+GETGOLDBETOPPRPS         @ 0x7cc72c: lea      ecx, [ebp - 0x1d4]             
+GETGOLDBETOPPRPS         @ 0x7cc732: push     ecx                            
+GETGOLDBETOPPRPS         @ 0x7cc733: lea      edx, [ebp - 0x44]              
+GETGOLDBETOPPRPS         @ 0x7cc736: push     edx                            
+GETGOLDBETOPPRPS         @ 0x7cc737: call     edi                            
+GETDUELNUMCARDBETRPS     @ 0x7cc739: mov      dword ptr [ebp - 0x1dc], 0x43b6fc   ; L"GETDUELNUMCARDBETRPS"
+GETDUELNUMCARDBETRPS     @ 0x7cc743: mov      dword ptr [ebp - 0x1e4], 0x8008 
+GETDUELNUMCARDBETRPS     @ 0x7cc74d: lea      eax, [ebp - 0x44]              
+GETDUELNUMCARDBETRPS     @ 0x7cc750: push     eax                            
+GETDUELNUMCARDBETRPS     @ 0x7cc751: lea      ecx, [ebp - 0x1e4]             
+GETDUELNUMCARDBETRPS     @ 0x7cc757: push     ecx                            
+GETDUELNUMCARDBETRPS     @ 0x7cc758: call     esi                            
+GETDUELNUMCARDBETRPS     @ 0x7cc75a: mov      word ptr [ebp - 0x208], ax     
+GETDUELNUMCARDBETRPS     @ 0x7cc761: lea      ecx, [ebp - 0x44]              
+GETDUELNUMCARDBETRPS     @ 0x7cc764: call     ebx                            
+GETDUELNUMCARDBETRPS     @ 0x7cc766: cmp      word ptr [ebp - 0x208], 0      
+GETDUELNUMCARDBETRPS     @ 0x7cc76e: je       0x7cc7d1                       
+GETDUELNUMCARDBETRPS     @ 0x7cc770: cmp      word ptr [0x7ce01e], -1        
+GETDUELNUMCARDBETRPS     @ 0x7cc778: jne      0x7cce8f                       
+GETDUELNUMCARDBETRPS     @ 0x7cc77e: mov      eax, dword ptr [0x7ce260]      
+GETDUELNUMCARDBETRPS     @ 0x7cc783: test     eax, eax                       
+GETDUELNUMCARDBETRPS     @ 0x7cc785: jne      0x7cc797                       
+GETDUELNUMCARDBETRPS     @ 0x7cc787: push     0x7ce260                       
+GETDUELNUMCARDBETRPS     @ 0x7cc78c: push     0x42c540                       
+GETDUELNUMCARDBETRPS     @ 0x7cc791: call     dword ptr [0x4011d0]             ; __vbaNew2
+GETDUELNUMCARDBETRPS     @ 0x7cc797: mov      esi, dword ptr [0x7ce260]      
+GETDUELNUMCARDBETRPS     @ 0x7cc79d: mov      edx, dword ptr [ebp + 0xc]     
+GETDUELNUMCARDBETRPS     @ 0x7cc7a0: mov      edx, dword ptr [edx]           
+GETDUELNUMCARDBETRPS     @ 0x7cc7a2: lea      ecx, [ebp - 0x34]              
+GETDUELNUMCARDBETRPS     @ 0x7cc7a5: call     dword ptr [0x4011ec]             ; __vbaStrCopy
+GETDUELNUMCARDBETRPS     @ 0x7cc7ab: mov      eax, dword ptr [esi]           
+GETDUELNUMCARDBETRPS     @ 0x7cc7ad: lea      ecx, [ebp - 0x34]              
+GETDUELNUMCARDBETRPS     @ 0x7cc7b0: push     ecx                            
+GETDUELNUMCARDBETRPS     @ 0x7cc7b1: push     esi                            
+GETDUELNUMCARDBETRPS     @ 0x7cc7b2: call     dword ptr [eax + 0x824]        
+GETDUELNUMCARDBETRPS     @ 0x7cc7b8: fnclex                                  
+GETDUELNUMCARDBETRPS     @ 0x7cc7ba: test     eax, eax                       
+GETDUELNUMCARDBETRPS     @ 0x7cc7bc: jge      0x7c8273                       
+GETDUELNUMCARDBETRPS     @ 0x7cc7c2: push     0x824                          
+GETDUELNUMCARDBETRPS     @ 0x7cc7c7: push     0x433d8c                       
+GETDUELNUMCARDBETRPS     @ 0x7cc7cc: jmp      0x7c826b                       
+GETDUELNUMCARDBETRPS     @ 0x7cc7d1: lea      edx, [ebp - 0x20]              
+GETDUELNUMCARDBETRPS     @ 0x7cc7d4: mov      dword ptr [ebp - 0x1cc], edx   
+GETDUELNUMCARDBETRPS     @ 0x7cc7da: mov      dword ptr [ebp - 0x1d4], 0x4008 
+GETDUELNUMCARDBETRPS     @ 0x7cc7e4: lea      eax, [ebp - 0x1d4]             
+GETDUELNUMCARDBETRPS     @ 0x7cc7ea: push     eax                            
+GETDUELNUMCARDBETRPS     @ 0x7cc7eb: lea      ecx, [ebp - 0x44]              
+GETDUELNUMCARDBETRPS     @ 0x7cc7ee: push     ecx                            
+GETDUELNUMCARDBETRPS     @ 0x7cc7ef: call     edi                            
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc7f1: mov      dword ptr [ebp - 0x1dc], 0x43b72c   ; L"GETDUELNUMCARDBETOPPRPS"
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc7fb: mov      dword ptr [ebp - 0x1e4], 0x8008 
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc805: lea      edx, [ebp - 0x44]              
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc808: push     edx                            
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc809: lea      eax, [ebp - 0x1e4]             
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc80f: push     eax                            
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc810: call     esi                            
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc812: mov      word ptr [ebp - 0x208], ax     
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc819: lea      ecx, [ebp - 0x44]              
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc81c: call     ebx                            
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc81e: cmp      word ptr [ebp - 0x208], 0      
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc826: je       0x7cc889                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc828: cmp      word ptr [0x7ce01e], -1        
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc830: jne      0x7cce8f                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc836: mov      eax, dword ptr [0x7ce260]      
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc83b: test     eax, eax                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc83d: jne      0x7cc84f                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc83f: push     0x7ce260                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc844: push     0x42c540                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc849: call     dword ptr [0x4011d0]             ; __vbaNew2
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc84f: mov      esi, dword ptr [0x7ce260]      
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc855: mov      ecx, dword ptr [ebp + 0xc]     
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc858: mov      edx, dword ptr [ecx]           
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc85a: lea      ecx, [ebp - 0x34]              
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc85d: call     dword ptr [0x4011ec]             ; __vbaStrCopy
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc863: mov      edx, dword ptr [esi]           
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc865: lea      eax, [ebp - 0x34]              
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc868: push     eax                            
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc869: push     esi                            
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc86a: call     dword ptr [edx + 0x82c]        
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc870: fnclex                                  
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc872: test     eax, eax                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc874: jge      0x7c8273                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc87a: push     0x82c                          
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc87f: push     0x433d8c                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc884: jmp      0x7c826b                       
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc889: lea      ecx, [ebp - 0x20]              
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc88c: mov      dword ptr [ebp - 0x1cc], ecx   
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc892: mov      dword ptr [ebp - 0x1d4], 0x4008 
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc89c: lea      edx, [ebp - 0x1d4]             
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc8a2: push     edx                            
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc8a3: lea      eax, [ebp - 0x44]              
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc8a6: push     eax                            
+GETDUELNUMCARDBETOPPRPS  @ 0x7cc8a7: call     edi                            
+SETREFRESHBET            @ 0x7cc8a9: mov      dword ptr [ebp - 0x1dc], 0x43b760   ; L"SETREFRESHBET"
+SETREFRESHBET            @ 0x7cc8b3: mov      dword ptr [ebp - 0x1e4], 0x8008 
+SETREFRESHBET            @ 0x7cc8bd: lea      ecx, [ebp - 0x44]              
+SETREFRESHBET            @ 0x7cc8c0: push     ecx                            
+SETREFRESHBET            @ 0x7cc8c1: lea      edx, [ebp - 0x1e4]             
+SETREFRESHBET            @ 0x7cc8c7: push     edx                            
+SETREFRESHBET            @ 0x7cc8c8: call     esi                            
+SETREFRESHBET            @ 0x7cc8ca: mov      word ptr [ebp - 0x208], ax     
+SETREFRESHBET            @ 0x7cc8d1: lea      ecx, [ebp - 0x44]              
+SETREFRESHBET            @ 0x7cc8d4: call     ebx                            
+SETREFRESHBET            @ 0x7cc8d6: cmp      word ptr [ebp - 0x208], 0      
+SETREFRESHBET            @ 0x7cc8de: je       0x7cc941                       
+SETREFRESHBET            @ 0x7cc8e0: cmp      word ptr [0x7ce01e], -1        
+SETREFRESHBET            @ 0x7cc8e8: jne      0x7cce8f                       
+SETREFRESHBET            @ 0x7cc8ee: mov      eax, dword ptr [0x7ce260]      
+SETREFRESHBET            @ 0x7cc8f3: test     eax, eax                       
+SETREFRESHBET            @ 0x7cc8f5: jne      0x7cc907                       
+SETREFRESHBET            @ 0x7cc8f7: push     0x7ce260                       
+SETREFRESHBET            @ 0x7cc8fc: push     0x42c540                       
+SETREFRESHBET            @ 0x7cc901: call     dword ptr [0x4011d0]             ; __vbaNew2
+SETREFRESHBET            @ 0x7cc907: mov      esi, dword ptr [0x7ce260]      
+SETREFRESHBET            @ 0x7cc90d: mov      eax, dword ptr [ebp + 0xc]     
+SETREFRESHBET            @ 0x7cc910: mov      edx, dword ptr [eax]           
+SETREFRESHBET            @ 0x7cc912: lea      ecx, [ebp - 0x34]              
+SETREFRESHBET            @ 0x7cc915: call     dword ptr [0x4011ec]             ; __vbaStrCopy
+SETREFRESHBET            @ 0x7cc91b: mov      ecx, dword ptr [esi]           
+SETREFRESHBET            @ 0x7cc91d: lea      edx, [ebp - 0x34]              
+SETREFRESHBET            @ 0x7cc920: push     edx                            
+SETREFRESHBET            @ 0x7cc921: push     esi                            
+SETREFRESHBET            @ 0x7cc922: call     dword ptr [ecx + 0x830]        
+SETREFRESHBET            @ 0x7cc928: fnclex                                  
+SETREFRESHBET            @ 0x7cc92a: test     eax, eax                       
+SETREFRESHBET            @ 0x7cc92c: jge      0x7c8273                       
+SETREFRESHBET            @ 0x7cc932: push     0x830                          
+SETREFRESHBET            @ 0x7cc937: push     0x433d8c                       
+SETREFRESHBET            @ 0x7cc93c: jmp      0x7c826b                       
+SETREFRESHBET            @ 0x7cc941: lea      eax, [ebp - 0x20]              
+SETREFRESHBET            @ 0x7cc944: mov      dword ptr [ebp - 0x1cc], eax   
+SETREFRESHBET            @ 0x7cc94a: mov      dword ptr [ebp - 0x1d4], 0x4008 
+SETREFRESHBET            @ 0x7cc954: lea      ecx, [ebp - 0x1d4]             
+SETREFRESHBET            @ 0x7cc95a: push     ecx                            
+SETREFRESHBET            @ 0x7cc95b: lea      edx, [ebp - 0x44]              
+SETREFRESHBET            @ 0x7cc95e: push     edx                            
+SETREFRESHBET            @ 0x7cc95f: call     edi                            
